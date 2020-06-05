@@ -1,0 +1,19 @@
+h1, h2, h3, h4, h5, h6 {
+	font-weight: bold;
+}
+
+h2 {
+	border-bottom-color: var(--black-ops);
+	border-bottom-style: solid;
+	border-bottom-width: 0.1rem;
+}
+
+$heading-font-size: 2em;
+
+@for $level from 1 through 6 {
+	h#{$level} {
+		font-size: $heading-font-size;
+	}
+
+	$heading-font-size: $heading-font-size - 0.2em;
+}

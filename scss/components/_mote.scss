@@ -1,0 +1,54 @@
+@keyframes mote-eye-wander {
+	from {
+		transform: translateX(0);
+	}
+
+	90% {
+		transform: translateX(0);
+	}
+
+	95% {
+		transform: translateX(-10%);
+	}
+
+	to {
+		transform: translateX(-10%);
+	}
+}
+
+@keyframes mote-blink {
+	from {
+		transform: scaleY(1);
+	}
+
+	95% {
+		transform: scaleY(1);
+	}
+
+	to {
+		transform: scaleY(0);
+	}
+}
+
+#mote {
+	display: inline-block;
+	fill: currentColor;
+	margin-right: 1rem;
+
+	#eyes {
+		animation-duration: 5s;
+		animation-name: mote-eye-wander;
+
+		* {
+			animation-duration: 2.3s;
+			animation-name: mote-blink;
+			transform-origin: 70% 70%;
+		}
+
+		&, * {
+			animation-direction: alternate;
+			animation-timing-function: ease-in-out;
+			animation-iteration-count: infinite;
+		}
+	}
+}

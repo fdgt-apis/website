@@ -1,0 +1,40 @@
+section.hero {
+	--hero-margin: calc(var(--gutter) * -1);
+
+	align-items: center;
+	background-color: var(--nights);
+	color: var(--white);
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 10rem;
+	margin-top: 0;
+	padding: 10rem max(10rem, calc(50% - 500px));
+
+	h2 {
+		border: none;
+	}
+
+	#mote {
+		font-size: 10em;
+		margin-right: 4rem;
+	}
+
+	.call-to-action {
+		display: flex;
+		flex-direction: column;
+		max-width: 70%;
+	}
+
+	.button {
+		align-self: flex-start;
+		background-color: var(--black-ops);
+		display: inline-block;
+		margin-top: var(--gutter);
+		padding: var(--gutter) 4rem;
+		text-decoration: none;
+
+		[data-icon] {
+			margin-left: var(--gutter);
+		}
+	}
+}

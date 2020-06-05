@@ -1,0 +1,10 @@
+{
+  "exec": "next",
+  "ignore": [
+    "node_modules/*",
+    "src/*"
+  ],
+  "watch": [
+    "next.config.js"
+  ]
+}

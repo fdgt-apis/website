@@ -1,0 +1,16 @@
+// This is a special core file, specifically intended to handle the way block
+// level elements with inline content interact with each other.
+
+blockquote,
+figure,
+h2, h3, h4, h5, h6,
+ol,
+p,
+pre,
+table,
+ul,
+.example-wrapper {
+  & + & {
+    margin-top: var(--gutter);
+  }
+}

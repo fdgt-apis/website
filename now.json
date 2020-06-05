@@ -1,0 +1,7 @@
+{
+  "scope": "trezy-studios",
+  "version": 2,
+	"redirects": [
+    { "source": "/docs", "destination": "/docs/getting-started", "permanent": false }
+  ]
+}

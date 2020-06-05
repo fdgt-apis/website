@@ -1,0 +1,20 @@
+.brand {
+	align-items: center;
+	display: flex;
+	font-size: 2em;
+	padding: 1rem var(--gutter);
+	white-space: nowrap;
+
+	span {
+		display: flex;
+		align-items: baseline;
+	}
+}
+
+#__next {
+	> .brand {
+		background-color: var(--nights);
+		color: var(--white);
+		grid-area: brand;
+	}
+}

@@ -1,0 +1,16 @@
+section {
+	// min-height: 50vh;
+	padding: 0 max(10rem, calc(50% - 500px));
+
+	&:first-child {
+		margin-top: 10rem;
+	}
+
+	&:last-child {
+		margin-bottom: 10rem;
+	}
+
+	+ section {
+		margin-top: 10rem;
+	}
+}

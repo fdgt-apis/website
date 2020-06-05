@@ -1,0 +1,29 @@
+table {
+	text-align: left;
+	width: 100%;
+}
+
+th, td {
+	padding: 0.5rem 1rem;
+
+	&:first-child {
+		padding-left: 0;
+	}
+
+	&:last-child {
+		padding-right: 0;
+	}
+}
+
+th {
+	border-bottom-color: var(--black-ops);
+	border-bottom-style: solid;
+	border-bottom-width: 0.1rem;
+	font-weight: bold;
+}
+
+td {
+	border-bottom-color: var(--smoke);
+	border-bottom-style: solid;
+	border-bottom-width: 0.1rem;
+}

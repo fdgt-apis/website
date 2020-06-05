@@ -1,0 +1,29 @@
+pre[class*=language-] {
+	counter-reset: line-counter;
+	padding-left: 0;
+	text-overflow: initial;
+
+	code {
+		padding-left: 0;
+
+		> div {
+			counter-increment: line-counter;
+
+			&:before {
+				background-color: var(--black-ops);
+				border-right-color: currenColor;
+				border-right-style: solid;
+				border-right-width: 0.1rem;
+				color: #999;
+				content: counter(line-counter);
+				display: inline-block;
+				left: 0;
+				margin-right: 1.5rem;
+				padding-right: 1.5rem;
+				position: sticky;
+				text-align: right;
+				width: 3em;
+			}
+		}
+	}
+}

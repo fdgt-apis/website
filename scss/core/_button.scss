@@ -1,0 +1,15 @@
+button {
+	background-color: var(--transparent);
+	background-image: none;
+	border: none;
+	border-radius: 0;
+	color: inherit;
+	cursor: pointer;
+	font-family: inherit;
+	font-size: inherit;
+	line-height: inherit;
+	margin: 0;
+	padding: 1rem var(--gutter);
+	transition-duration: 0.1s;
+	transition-property: background-color;
+}

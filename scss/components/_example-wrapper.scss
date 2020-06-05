@@ -1,0 +1,40 @@
+.example-wrapper {
+	display: flex;
+	flex-direction: column;
+
+	menu {
+		background-color: var(--dragon);
+		color: var(--white);
+		display: flex;
+
+		> * {
+			margin: 0;
+		}
+
+		ul {
+			display: flex;
+		}
+
+		.meta {
+			margin-left: auto;
+
+			li {
+				padding: 1rem var(--gutter);
+			}
+		}
+
+		button {
+			&.active {
+				background-color: var(--black-ops);
+			}
+
+			&:hover {
+				background-color: var(--nights);
+			}
+		}
+	}
+
+	pre {
+		margin-top: 0;
+	}
+}

@@ -1,0 +1,68 @@
+@mixin generateHSLCustomProperties($name, $h, $s, $l) {
+  // $safeName is necessary because $name can be a color literal. Sass doesn't
+  // like that.
+  $safeName: '' + $name;
+
+  --#{$safeName}-h: calc(#{$h} + var(--hue-shift));
+  --#{$safeName}-s: #{$s};
+  --#{$safeName}-l: #{$l};
+
+  --#{$safeName}-hsl: var(--#{$safeName}-h), var(--#{$safeName}-s), var(--#{$safeName}-l);
+
+  --#{$safeName}: hsl(var(--#{$safeName}-hsl));
+}
+
+@mixin generateHSLCustomPropertiesFromColorWithName($name, $color) {
+  @include generateHSLCustomProperties(
+    $name,
+    hue($color),
+    saturation($color),
+    lightness($color),
+  )
+}
+
+
+
+
+
+
+:root {
+	--hue-shift: 0deg;
+
+	// Core
+	@include generateHSLCustomPropertiesFromColorWithName(black-ops, black);
+	@include generateHSLCustomPropertiesFromColorWithName(ice, #f0f0ff);
+	@include generateHSLCustomPropertiesFromColorWithName(white, white);
+	@include generateHSLCustomPropertiesFromColorWithName(transparent, transparent);
+	@include generateHSLCustomPropertiesFromColorWithName(twitch-purple, #9146ff);
+
+	// Muted
+	// @include generateHSLCustomPropertiesFromColorWithName(ice, #f0f0ff);
+	@include generateHSLCustomPropertiesFromColorWithName(smoke, #d2d2e6);
+	@include generateHSLCustomPropertiesFromColorWithName(jiggle, #fab4ff);
+	@include generateHSLCustomPropertiesFromColorWithName(widow, #bfabff);
+	@include generateHSLCustomPropertiesFromColorWithName(worm, #facdcd);
+	@include generateHSLCustomPropertiesFromColorWithName(peach, #fc6675);
+	@include generateHSLCustomPropertiesFromColorWithName(isabelle, #feee85);
+	@include generateHSLCustomPropertiesFromColorWithName(pac-man, #ffca5f);
+	@include generateHSLCustomPropertiesFromColorWithName(droid, #befae1);
+	@include generateHSLCustomPropertiesFromColorWithName(felicia, #57bee6);
+	@include generateHSLCustomPropertiesFromColorWithName(wipe-out, #00c8af);
+	@include generateHSLCustomPropertiesFromColorWithName(sonic, #0014a5);
+
+	// Accent
+	@include generateHSLCustomPropertiesFromColorWithName(dragon, #8205b4);
+	@include generateHSLCustomPropertiesFromColorWithName(nights, #41145f);
+	@include generateHSLCustomPropertiesFromColorWithName(cuddle, #fa1ed2);
+	@include generateHSLCustomPropertiesFromColorWithName(osu, #be0078);
+	@include generateHSLCustomPropertiesFromColorWithName(bandit, #ff6905);
+	@include generateHSLCustomPropertiesFromColorWithName(sniper, #fa2828);
+	@include generateHSLCustomPropertiesFromColorWithName(lightning, #fafa19);
+	@include generateHSLCustomPropertiesFromColorWithName(egg, #00fa05);
+	@include generateHSLCustomPropertiesFromColorWithName(ko, #beff00);
+	@include generateHSLCustomPropertiesFromColorWithName(legend, #69ffc3);
+	@include generateHSLCustomPropertiesFromColorWithName(mega, #00fafa);
+	@include generateHSLCustomPropertiesFromColorWithName(zero, #1e69ff);
+
+  --transparent: transparent;
+}

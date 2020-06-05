@@ -1,0 +1,28 @@
+nav {
+	background-color: var(--black-ops);
+	color: var(--white);
+	display: flex;
+
+	ol, ul {
+		display: flex;
+		margin-top: 0;
+	}
+
+	li {
+		display: flex;
+	}
+
+	a {
+		align-items: center;
+		background-color: transparent;
+		display: flex;
+		padding: var(--gutter);
+		text-decoration: none;
+		transition-duration: 0.1s;
+		transition-property: background-color;
+
+		&:hover {
+			background-color: var(--nights);
+		}
+	}
+}
