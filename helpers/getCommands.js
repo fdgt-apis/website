@@ -10,7 +10,7 @@ export const getCommands = async () => {
 	])
 	const readdir = promisify(fs.readdir)
 
-	const dataMocksPath = path.resolve(process.cwd(), 'node_modules', '@fdgt/api', 'data-mocks')
+	const dataMocksPath = path.resolve(process.cwd(), 'node_modules', '@fdgt/api', 'src', 'data-mocks')
 	const dataMockFilenames = await readdir(dataMocksPath)
 	const commands = dataMockFilenames.map(filename => filename.replace(path.extname(filename), ''))
 
