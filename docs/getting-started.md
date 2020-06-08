@@ -8,13 +8,13 @@ Yup.
 
 ## It can't be that simple!
 
-It is, tho. Check out this example with [`tmi.js`][tmi.js].
+It is, tho. Have some examples.
 
-### Connecting to the real `tmi`
+### Connecting to the real Twitch IRC
 
 [[ CodeTemplate template=NormalConnect ]]
 
-### Connecting to the `fdgt` mock `tmi`
+### Connecting to the `fdgt` mock IRC
 
 [[ CodeTemplate template=FDGTConnect ]]
 
@@ -28,7 +28,7 @@ One of the hardest parts of working with the Twitch chat API is that to test you
 
 **Need to simulate a `submysterygift` with 10 Tier 3 subscriptions?** God help you.
 
-Instead of blowing the wads of cash that you probably don't have, use `fdgt`! With `fdgt`, you just have to send the right message to the chat service, and it'll trigger the appropriate event! Here's an example of triggering a message with bits in it, again using `tmi.js`:
+Instead of blowing the wads of cash that you probably don't have, use `fdgt`! With `fdgt`, you just have to send the right message to the chat service, and it'll trigger the appropriate event! Here's an example of triggering a message with bits:
 
 [[ CodeTemplate template=PRIVMSG channel=TrezyCodes message="bits" ]]
 
@@ -51,4 +51,3 @@ For more information on what events are available and what parameters they suppo
 
 
 [discord]: https://discord.gg/k3bth3f "Trezy Studios Discord"
-[tmi.js]: https://tmijs.com/ "tmi.js website"
