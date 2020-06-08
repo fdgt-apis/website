@@ -23,11 +23,11 @@ export const DocsSubnav = props => {
 							</Link>
 						</li>
 
-						<li>
+						{/* <li>
 							<Link href="/docs/features">
 								<a id="commands-nav">Basic Features</a>
 							</Link>
-						</li>
+						</li> */}
 					</ol>
 				</li>
 
