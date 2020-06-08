@@ -8,7 +8,7 @@
     "start": "now dev"
   },
   "dependencies": {
-    "@fdgt/api": "fdgt-apis/api#next",
+    "@fdgt/api": "fdgt-apis/api",
     "@fortawesome/fontawesome-svg-core": "^1.2.28",
     "@fortawesome/free-brands-svg-icons": "^5.13.0",
     "@fortawesome/free-regular-svg-icons": "^5.13.0",
