@@ -66,7 +66,7 @@ export const getStaticPaths = async () => {
 	])
 
 	const docsPath = path.resolve(process.cwd(), 'docs')
-	const docFilenames = fs.readdirSync(docsPath)
+	const docFilenames = fs.readdirSync(docsPath).filter(filename => (path.extname(filename) === '.md'))
 
 	return {
 		fallback: false,
