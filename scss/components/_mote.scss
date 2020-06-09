@@ -49,11 +49,18 @@
 	11% {
 		transform:
 			translate(2rem, -5rem)
-			scaleX(0.9)
-			scaleY(1.1);
+			scaleX(0.8)
+			scaleY(1.2);
 	}
 
 	12% {
+		transform:
+			translate(4rem, 2rem)
+			scaleX(1.2)
+			scaleY(0.8);
+	}
+
+	14% {
 		transform:
 			translate(4rem, 0)
 			scaleX(1)
@@ -86,18 +93,17 @@
 	39% {
 		transform:
 			translate(2rem, -5rem)
-			scaleX(-0.9)
-			scaleY(1.1);
+			scaleX(-0.8)
+			scaleY(1.2);
 	}
 
 	40% {
 		transform:
-			translate(0, 0)
-			scaleX(-1)
-			scaleY(1);
+			translate(0, 2rem)
+			scaleX(-1.2)
+			scaleY(0.8);
 	}
 
-	// Jump
 	42% {
 		transform:
 			translate(0, 0)
@@ -105,14 +111,29 @@
 			scaleY(1);
 	}
 
-	43% {
+	// Jump
+	44% {
 		transform:
-			translate(-2rem, -5rem)
-			scaleX(-0.9)
-			scaleY(1.1);
+			translate(0, 0)
+			scaleX(-1)
+			scaleY(1);
 	}
 
-	44% {
+	45% {
+		transform:
+			translate(-2rem, -5rem)
+			scaleX(-0.8)
+			scaleY(1.2);
+	}
+
+	46% {
+		transform:
+			translate(-4rem, 2rem)
+			scaleX(-1.2)
+			scaleY(0.8);
+	}
+
+	48% {
 		transform:
 			translate(-4rem, 0)
 			scaleX(-1)
@@ -145,11 +166,18 @@
 	83% {
 		transform:
 			translate(-2rem, -5rem)
-			scaleX(0.9)
-			scaleY(1.1);
+			scaleX(0.8)
+			scaleY(1.2);
 	}
 
 	84% {
+		transform:
+			translate(0, 2rem)
+			scaleX(1.2)
+			scaleY(0.8);
+	}
+
+	86% {
 		transform:
 			translate(0, 0)
 			scaleX(1)
