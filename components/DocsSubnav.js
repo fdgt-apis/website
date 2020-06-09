@@ -18,13 +18,17 @@ export const DocsSubnav = props => {
 
 					<ol>
 						<li>
-							<Link href="/docs/getting-started">
+							<Link
+								as="/docs/getting-started"
+								href="/docs/[...doc]">
 								<a id="commands-nav">Getting Started</a>
 							</Link>
 						</li>
 
 						{/* <li>
-							<Link href="/docs/features">
+							<Link
+								as="/docs/features"
+								href="/docs/[...doc]">
 								<a id="commands-nav">Basic Features</a>
 							</Link>
 						</li> */}
@@ -37,7 +41,9 @@ export const DocsSubnav = props => {
 					<ul>
 						{commands.map(command => (
 							<li key={command}>
-								<Link href={`/docs/api/${command}`}>
+								<Link
+									as={`/docs/api/${command}`}
+									href="/docs/api/[command]">
 									<a>{command}</a>
 								</Link>
 							</li>

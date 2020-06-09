@@ -29,7 +29,9 @@ export const Banner = () => (
         </li>
 
         <li>
-          <Link href="/docs/getting-started">
+          <Link
+						as="/docs/getting-started"
+						href="/docs/[...doc]">
             <a>
 							<FontAwesomeIcon
 								fixedWidth
