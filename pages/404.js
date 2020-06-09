@@ -15,10 +15,8 @@ import { PageWrapper } from 'components/PageWrapper'
 
 
 export default props => (
-	<PageWrapper
-		{...props}
-		statusCode={404}>
-		<ErrorPage />
+	<PageWrapper {...props}>
+		<ErrorPage statusCode={404} />
 	</PageWrapper>
 )
 
