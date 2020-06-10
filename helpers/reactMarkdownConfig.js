@@ -16,7 +16,7 @@ import { Shortcode } from 'components/Shortcode'
 
 const config = {
   plugins: [
-    [behead, { depth: 1 }],
+		[behead, { depth: 1 }],
     shortcodes,
   ],
   renderers: {

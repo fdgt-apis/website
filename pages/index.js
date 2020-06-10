@@ -1,4 +1,5 @@
 // Module imports
+import { NextSeo as NextSEO } from 'next-seo'
 import React from 'react'
 
 
@@ -18,6 +19,10 @@ import Mote from 'public/images/mote.svg'
 
 export default props => (
 	<PageWrapper {...props}>
+		<NextSEO
+			description="Building things for Twitch shouldn't empty your wallet. Use FDGT to build your apps and overlays without spending a dime."
+			title="Home" />
+
 		<Hero />
 
 		<section>

@@ -1,3 +1,8 @@
+---
+title: Getting Started
+description: Get started with FDGT in the official documentation, and learn more about all our features!
+---
+
 # How does it work?
 
 Using `fdgt` is pretty simple. Instead of pointing to `irc-ws.chat.twitch.tv`, point your library to `irc.fdgt.dev`. DONE.

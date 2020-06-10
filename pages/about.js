@@ -1,4 +1,5 @@
 // Module imports
+import { NextSeo as NextSEO } from 'next-seo'
 import classnames from 'classnames'
 import React from 'react'
 
@@ -24,6 +25,10 @@ export default props => {
 
 	return (
 		<PageWrapper {...props}>
+			<NextSEO
+				description="FDGT was built by developers, for developers. These are those developers!"
+				title="About" />
+
 			<section>
 				<h2>About</h2>
 

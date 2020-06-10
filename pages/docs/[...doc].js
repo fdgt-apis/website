@@ -2,6 +2,7 @@
 import React, {
 	useContext,
 } from 'react'
+import { NextSeo as NextSEO } from 'next-seo'
 import ReactMarkdown from 'react-markdown'
 
 
@@ -29,6 +30,7 @@ export default props => {
 		codeTemplates,
 		doc,
 		exampleModes,
+		meta,
 	} = props
 
 	setCodeTemplates(codeTemplates)
@@ -36,6 +38,10 @@ export default props => {
 
 	return (
 		<PageWrapper {...props}>
+			<NextSEO
+				description={meta.description}
+				title={meta.title} />
+
 			<section>
 				{!doc && (
 					'This command has not yet been documented.'
@@ -84,10 +90,12 @@ export const getStaticPaths = async () => {
 
 export const getStaticProps = async initialProps => {
 	const [
+		{ default: frontmatter },
 		fs,
 		path,
 		{ promisify },
 	] = await Promise.all([
+		import('frontmatter'),
 		import('fs'),
 		import('path'),
 		import('util'),
@@ -110,12 +118,18 @@ export const getStaticProps = async initialProps => {
 		readFile(docPath, 'utf8'),
 	])
 
+	const {
+		data,
+		content,
+	} = frontmatter(doc)
+
 	return {
 		props: {
 			...codeTemplateProps,
 			...commandProps,
 			...exampleModeProps,
-			doc,
+			meta: data,
+			doc: content,
 		},
 	}
 }

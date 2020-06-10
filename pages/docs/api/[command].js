@@ -2,6 +2,7 @@
 import React, {
 	useContext,
 } from 'react'
+import { NextSeo as NextSEO } from 'next-seo'
 import ReactMarkdown from 'react-markdown'
 
 
@@ -14,6 +15,7 @@ import { ExampleModeContext } from 'context/ExampleModeContext'
 import { getCodeTemplates } from 'helpers/getCodeTemplates'
 import { getExampleModes } from 'helpers/getExampleModes'
 import { PageWrapper } from 'components/PageWrapper'
+import { stripMarkdown } from 'helpers/stripMarkdown'
 import markdownConfig from 'helpers/reactMarkdownConfig'
 
 
@@ -28,8 +30,9 @@ export default props => {
 	const {
 		codeTemplates,
 		commands,
+		doc,
 		exampleModes,
-		markdownDocument,
+		meta,
 	} = props
 
 	setCodeTemplates(codeTemplates)
@@ -37,16 +40,20 @@ export default props => {
 
 	return (
 		<PageWrapper {...props}>
+			<NextSEO
+				description={stripMarkdown(meta.description)}
+				title={`${stripMarkdown(meta.title)} event`} />
+
 			<section>
-				{!markdownDocument && (
+				{!doc && (
 					'This command has not yet been documented.'
 				)}
 
-				{Boolean(markdownDocument) && (
+				{Boolean(doc) && (
 					<ReactMarkdown
 						{...markdownConfig}
 						escapeHtml={false}
-						source={markdownDocument} />
+						source={doc} />
 				)}
 			</section>
 		</PageWrapper>
@@ -86,11 +93,13 @@ export const getStaticPaths = async () => {
 export const getStaticProps = async initialProps => {
 	const { params } = initialProps
 	const [
+		{ default: frontmatter },
 		fs,
 		path,
 		{ promisify },
 		{ default: jsdoc2md },
 	] = await Promise.all([
+		import('frontmatter'),
 		import('fs'),
 		import('path'),
 		import('util'),
@@ -101,30 +110,42 @@ export const getStaticProps = async initialProps => {
 	const dataMocksPath = path.resolve(process.cwd(), 'node_modules', '@fdgt/api', 'src', 'data-mocks')
 	const dataMockFilenames = await readdir(dataMocksPath)
 	const commands = dataMockFilenames.map(filename => filename.replace(path.extname(filename), ''))
+	const jsdocHelpersPath = path.resolve(process.cwd(), 'helpers', 'jsdocHelpers')
 	const jsdocPartialsPath = path.resolve(process.cwd(), 'helpers', 'jsdocPartials')
 
 	const [
 		{ props: codeTemplateProps },
 		{ props: exampleModeProps },
-		markdownDocument,
+		doc,
 	] = await Promise.all([
 		getCodeTemplates(),
 		getExampleModes(),
 		jsdoc2md.render({
 			files: path.resolve(dataMocksPath, `${params.command}.js`),
 			'heading-depth': 1,
+			helper: [
+				path.resolve(jsdocHelpersPath, 'firstLine.js'),
+			],
 			partial: [
+				path.resolve(jsdocPartialsPath, 'docs.hbs'),
 				path.resolve(jsdocPartialsPath, 'examples.hbs'),
+				path.resolve(jsdocPartialsPath, 'params.hbs'),
 			],
 		}),
 	])
+
+	const {
+		data,
+		content,
+	} = frontmatter(doc)
 
 	return {
 		props: {
 			...codeTemplateProps,
 			...exampleModeProps,
 			commands,
-			markdownDocument,
+			doc: content,
+			meta: data,
 		},
 	}
 }

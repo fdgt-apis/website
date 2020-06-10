@@ -1,4 +1,5 @@
 // Module imports
+import { DefaultSeo as DefaultSEO } from 'next-seo'
 import PropTypes from 'prop-types'
 import React from 'react'
 
@@ -21,6 +22,8 @@ export const PageWrapper = props => {
 
 	return (
 		<>
+			<DefaultSEO titleTemplate="%s | fdgt.dev" />
+
 			<DocsSubnav commands={commands} />
 
 			<main>
