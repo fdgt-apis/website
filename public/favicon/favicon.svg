@@ -1,0 +1,48 @@
+<svg id="mote" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2434 2434">
+	<defs>
+		<style>
+			#body,
+			#eyes * {
+				fill: black;
+			}
+
+			#background {
+				fill: #f0f0ff;
+			}
+
+			@media (prefers-color-scheme: dark) {
+				#body,
+				#eyes * {
+					fill: #f0f0ff;
+				}
+
+				#background {
+					fill: black;
+				}
+			}
+		</style>
+	</defs>
+
+	<polygon
+		id="background"
+		points="1636 703.8 1351.7 703.7 1016.7 368.7 1016.7 484.5 532.5 0.3 532.5 474.9 327.2 269.6 327.2 703.6 251.5 703.6 251.5 1887.1 798 2433.6 909.3 2433.6 909.4 2433.7 1636 2433.6 2182.5 1887.1 2182.5 1250.3 1636 703.8" />
+
+	<g id="eyes">
+		<rect
+			id="right"
+			x="1452.7"
+			y="1344.1"
+			width="200"
+			height="497.9" />
+		<rect
+			id="left"
+			x="902.7"
+			y="1344.1"
+			width="200"
+			height="497.9" />
+	</g>
+
+	<path
+		id="body"
+		d="M1615.3,753.8l-284.3-.1L1066.7,489.4V605.2L582.5,121V595.6L377.2,390.3V753.6H301.5V1866.4l517.2,517.2H930.2l.1.1,685-.1,517.2-517.2V1271Zm317.2,1029.8-400,400h-631l-400-400V953.8h281v-350l350,350h400l400,400Z"/>
+</svg>
