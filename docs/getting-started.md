@@ -5,7 +5,7 @@ description: Get started with FDGT in the official documentation, and learn more
 
 # How does it work?
 
-Using `fdgt` is pretty simple. Instead of pointing to `irc-ws.chat.twitch.tv`, point your library to `irc.fdgt.dev`. DONE.
+Using `fdgt` is pretty simple. Instead of pointing to `irc.chat.twitch.tv` or `irc-ws.chat.twitch.tv`, point your library to `irc.fdgt.dev`. DONE.
 
 ## Wait seriously?
 
