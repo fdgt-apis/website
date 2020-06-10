@@ -15,6 +15,7 @@ import PropTypes from 'prop-types'
 
 // Local imports
 import { ExampleModeContext } from 'context/ExampleModeContext'
+import { ExternalLink } from 'components/ExternalLink'
 
 
 
@@ -118,6 +119,10 @@ export const Code = props => {
 					{renderTokens(tokens)}
 				</code>
 			</pre>
+
+			<footer>
+				Don't see your favorite library listed here? <ExternalLink href="https://github.com/fdgt-apis/website/blob/master/CONTRIBUTING.md#adding-a-new-library">Help us add it!</ExternalLink>
+			</footer>
 		</div>
   )
 }
