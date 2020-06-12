@@ -18,7 +18,7 @@
     "awaity": "^1.0.0",
     "babel-plugin-prismjs": "^2.0.1",
     "classnames": "^2.2.6",
-    "copy-webpack-plugin": "^6.0.1",
+    "copy-webpack-plugin": "^6.0.2",
     "frontmatter": "^0.0.3",
     "jsdoc-to-markdown": "^5.0.3",
     "localforage": "^1.7.3",
