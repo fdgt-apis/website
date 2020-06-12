@@ -121,7 +121,7 @@ export const Code = props => {
 			</pre>
 
 			<footer>
-				Don't see your favorite library listed here? <ExternalLink href="https://github.com/fdgt-apis/website/blob/master/CONTRIBUTING.md#adding-a-new-library">Help us add it!</ExternalLink>
+				Don't see your favorite library listed here? <ExternalLink href="https://github.com/fdgt-apis/website/blob/main/CONTRIBUTING.md#adding-a-new-library">Help us add it!</ExternalLink>
 			</footer>
 		</div>
   )

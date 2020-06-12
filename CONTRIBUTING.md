@@ -134,5 +134,5 @@ If the commit **must** make changes to two or more **completely unrelated** file
 [feature-request]: https://github.com/fdgt-apis/website/issues/new?assignees=&labels=enhancement&template=feature_request.md&title=
 [egghead]: https://egghead.io/series/how-to-contribute-to-an-open-source-project-on-github
 [new-pr]: https://github.com/fdgt-apis/website/compare
-[.babelrc]: https://github.com/fdgt-apis/website/blob/master/.babelrc
+[.babelrc]: https://github.com/fdgt-apis/website/blob/main/.babelrc
 [yarn2install]: https://yarnpkg.com/getting-started
