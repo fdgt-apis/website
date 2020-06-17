@@ -1171,10 +1171,10 @@
   resolved "https://registry.yarnpkg.com/@csstools/convert-colors/-/convert-colors-1.4.0.tgz#ad495dc41b12e75d588c6db8b9834f08fa131eb7"
   integrity sha512-5a6wqoJV/xEdbRNKVo6I4hO3VjyDq//8q2f9I6PBAvMesJHFauXDorcNCsr9RzvsZnaWi5NYCcfyqP1QeFHFbw==
 
-"@fdgt/api@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@fdgt/api/-/api-1.0.0.tgz#38d4bb87af5cdc5e7cdbcd03db01d08406e1ca4d"
-  integrity sha512-SjZ+K/inxiiLQLrPix72WMYUTeavBLosDS6PhCygHbrfYn3L1KCw3yFqhP1KGnT1aerQdjjYNvJ+Nfe8eexRdA==
+"@fdgt/api@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@fdgt/api/-/api-1.0.2.tgz#c2422f9f91a57de7dedd23df817d239c35f51674"
+  integrity sha512-MizvIHzg1E30k3xUHuK7jWTwovktD/d39YfCvR9Y1gH85zFTeXMhlHruirxgZYe1mvWnqWdaJYZ/+27wHr0Q8w==
   dependencies:
     "@babel/cli" "^7.10.1"
     dotenv "^8.2.0"
