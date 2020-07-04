@@ -3,6 +3,7 @@ import React, {
 	useContext,
 } from 'react'
 import { NextSeo as NextSEO } from 'next-seo'
+import frontmatter from 'frontmatter'
 import ReactMarkdown from 'react-markdown'
 
 
@@ -97,16 +98,18 @@ export const getStaticProps = async initialProps => {
 		fetch(`https://api.fdgt.dev/fdgt/v1/commands/${params.command}`).then(response => response.json()),
 	])
 
+	const {
+		data: meta,
+		content: doc,
+	} = frontmatter(data)
+
 	return {
 		props: {
 			...codeTemplateProps,
 			...commands,
 			...exampleModeProps,
-			doc: data.content,
-			meta: {
-				description: data.description || '',
-				title: data.title || '',
-			},
+			doc,
+			meta,
 		},
 	}
 }
