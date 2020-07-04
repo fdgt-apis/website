@@ -8,7 +8,6 @@
     "start": "vercel dev"
   },
   "dependencies": {
-    "@fdgt/api": "fdgt-apis/api",
     "@fortawesome/fontawesome-svg-core": "^1.2.28",
     "@fortawesome/free-brands-svg-icons": "^5.13.0",
     "@fortawesome/free-regular-svg-icons": "^5.13.0",
@@ -20,7 +19,6 @@
     "classnames": "^2.2.6",
     "copy-webpack-plugin": "^6.0.2",
     "frontmatter": "^0.0.3",
-    "jsdoc-to-markdown": "^5.0.3",
     "localforage": "^1.7.4",
     "moment": "^2.25.3",
     "next": "^9.4.1",
