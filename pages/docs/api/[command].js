@@ -13,6 +13,7 @@ import ReactMarkdown from 'react-markdown'
 import { DocsSubnav } from 'components/DocsSubnav'
 import { ExampleModeContext } from 'context/ExampleModeContext'
 import { getCodeTemplates } from 'helpers/getCodeTemplates'
+import { getCommands } from 'helpers/getCommands'
 import { getExampleModes } from 'helpers/getExampleModes'
 import { PageWrapper } from 'components/PageWrapper'
 import { stripMarkdown } from 'helpers/stripMarkdown'
@@ -64,23 +65,14 @@ export default props => {
 
 
 
-export const getStaticPaths = async () => {
-	const [
-		fs,
-		path,
-	] = await Promise.all([
-		import('fs'),
-		import('path'),
-	])
-
-	const dataMocksPath = path.resolve(process.cwd(), 'node_modules', '@fdgt/api', 'src', 'data-mocks')
-	const dataMockFilenames = fs.readdirSync(dataMocksPath)
+export const getStaticPaths = async initialProps => {
+	const { data } = await fetch('https://api.fdgt.dev/fdgt/v1/commands').then(response => response.json())
 
 	return {
 		fallback: false,
-		paths: dataMockFilenames.map(filename => ({
+		paths: data.map(command => ({
 			params: {
-				command: filename.replace(path.extname(filename), ''),
+				command,
 			},
 		})),
 	}
@@ -92,60 +84,29 @@ export const getStaticPaths = async () => {
 
 export const getStaticProps = async initialProps => {
 	const { params } = initialProps
-	const [
-		{ default: frontmatter },
-		fs,
-		path,
-		{ promisify },
-		{ default: jsdoc2md },
-	] = await Promise.all([
-		import('frontmatter'),
-		import('fs'),
-		import('path'),
-		import('util'),
-		import('jsdoc-to-markdown'),
-	])
-	const readdir = promisify(fs.readdir)
-
-	const dataMocksPath = path.resolve(process.cwd(), 'node_modules', '@fdgt/api', 'src', 'data-mocks')
-	const dataMockFilenames = await readdir(dataMocksPath)
-	const commands = dataMockFilenames.map(filename => filename.replace(path.extname(filename), ''))
-	const jsdocHelpersPath = path.resolve(process.cwd(), 'helpers', 'jsdocHelpers')
-	const jsdocPartialsPath = path.resolve(process.cwd(), 'helpers', 'jsdocPartials')
 
 	const [
 		{ props: codeTemplateProps },
+		{ props: commands },
 		{ props: exampleModeProps },
-		doc,
+		{ data },
 	] = await Promise.all([
 		getCodeTemplates(),
+		getCommands(),
 		getExampleModes(),
-		jsdoc2md.render({
-			files: path.resolve(dataMocksPath, `${params.command}.js`),
-			'heading-depth': 1,
-			helper: [
-				path.resolve(jsdocHelpersPath, 'firstLine.js'),
-			],
-			partial: [
-				path.resolve(jsdocPartialsPath, 'docs.hbs'),
-				path.resolve(jsdocPartialsPath, 'examples.hbs'),
-				path.resolve(jsdocPartialsPath, 'params.hbs'),
-			],
-		}),
+		fetch(`https://api.fdgt.dev/fdgt/v1/commands/${params.command}`).then(response => response.json()),
 	])
-
-	const {
-		data,
-		content,
-	} = frontmatter(doc)
 
 	return {
 		props: {
 			...codeTemplateProps,
+			...commands,
 			...exampleModeProps,
-			commands,
-			doc: content,
-			meta: data,
+			doc: data.content,
+			meta: {
+				description: data.description || '',
+				title: data.title || '',
+			},
 		},
 	}
 }
