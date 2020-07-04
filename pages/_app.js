@@ -8,10 +8,6 @@ import '../scss/app.scss'
 
 
 // Module imports
-import {
-  config as faConfig,
-  library as faLibrary,
-} from '@fortawesome/fontawesome-svg-core'
 import LocalForage from 'localforage'
 import NextHead from 'next/head'
 import PropTypes from 'prop-types'
@@ -22,22 +18,14 @@ import React from 'react'
 
 
 // Local imports
+import 'helpers/faSetup'
 import { Banner } from 'components/Banner'
 import { Brand } from 'components/Brand'
 import { ExampleModeContextProvider } from 'context/ExampleModeContext'
-import * as fasIcons from 'helpers/fasIconLibrary'
-import * as fabIcons from 'helpers/fabIconLibrary'
-import * as farIcons from 'helpers/farIconLibrary'
 
 
 
 
-
-// Configure and populate FontAwesome library
-faConfig.autoAddCss = false
-faLibrary.add(fasIcons)
-faLibrary.add(fabIcons)
-faLibrary.add(farIcons)
 
 const App = ({ Component, pageProps }) => {
 	LocalForage.config({

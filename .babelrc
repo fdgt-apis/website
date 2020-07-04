@@ -1,6 +1,9 @@
 {
   "presets": ["next/babel"],
   "plugins": [
+		["module-resolver", {
+      "root": ["."]
+    }],
     ["prismjs", {
         "languages": [
 					"csharp",

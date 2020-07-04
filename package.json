@@ -5,7 +5,9 @@
   "license": "MIT",
   "scripts": {
     "build": "next build",
-    "start": "vercel dev"
+    "start": "vercel dev",
+    "test": "jest --watch",
+    "test:ci": "jest --ci"
   },
   "dependencies": {
     "@fdgt/api": "fdgt-apis/api",
@@ -15,11 +17,16 @@
     "@fortawesome/free-solid-svg-icons": "^5.13.0",
     "@fortawesome/react-fontawesome": "^0.1.10",
     "@svgr/webpack": "^5.4.0",
+    "@testing-library/jest-dom": "^5.11.0",
+    "@testing-library/react": "^10.4.3",
     "awaity": "^1.0.0",
+    "babel-jest": "^26.1.0",
     "babel-plugin-prismjs": "^2.0.1",
     "classnames": "^2.2.6",
     "copy-webpack-plugin": "^6.0.2",
     "frontmatter": "^0.0.3",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^26.1.0",
     "jsdoc-to-markdown": "^5.0.3",
     "localforage": "^1.7.4",
     "moment": "^2.25.3",
@@ -34,12 +41,14 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-markdown": "^4.3.1",
+    "react-test-renderer": "^16.13.1",
     "remark-behead": "^2.3.2",
     "remark-shortcodes": "^0.3.1",
     "sass": "^1.26.8",
     "vercel": "^19.0.1"
   },
   "devDependencies": {
+    "babel-plugin-module-resolver": "^4.0.0",
     "json-loader": "^0.5.7",
     "nodemon": "^2.0.3"
   }
