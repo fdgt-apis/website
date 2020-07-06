@@ -1,3 +1,3 @@
 ```js
-chatClient.say('#channel', '{{message}}')
+client.say('#channel', '{{message}}')
 ```
