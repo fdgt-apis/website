@@ -1,0 +1,25 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "d-fischer",
+      "name": "Daniel Fischer",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/5854687?v=4",
+      "profile": "https://github.com/d-fischer",
+      "contributions": [
+        "doc",
+        "review"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "website",
+  "projectOwner": "fdgt-apis",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "skipCi": true
+}
