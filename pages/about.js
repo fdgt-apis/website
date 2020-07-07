@@ -20,7 +20,7 @@ import { PageWrapper } from 'components/PageWrapper'
 
 
 
-export default props => {
+const AboutPage = props => {
 	const { contributors } = props
 
 	return (
@@ -58,11 +58,7 @@ export default props => {
 	)
 }
 
-
-
-
-
-export const getStaticProps = async () => {
+AboutPage.getInitialProps = async () => {
 	const [
 		{ props: commandsProps },
 		{ props: contributorProps },
@@ -72,9 +68,13 @@ export const getStaticProps = async () => {
 	])
 
 	return {
-		props: {
-			...commandsProps,
-			...contributorProps,
-		},
+		...commandsProps,
+		...contributorProps,
 	}
 }
+
+
+
+
+
+export default AboutPage
