@@ -1,0 +1,43 @@
+.profile-card {
+	align-items: flex-start;
+	background-color: var(--nights);
+	color: var(--white);
+	// display: flex;
+	// flex-direction: column;
+
+	tbody,
+	tr {
+		width: 100%;
+	}
+
+	td, th {
+		padding: 1rem;
+	}
+
+	th {
+		background-color: var(--black-ops);
+		border-bottom-color: #444;
+		width: auto;
+	}
+
+	td {
+		border-bottom-color: var(--dragon);
+		font-size: 0.8em;
+		width: 100%;
+
+		&.avatar {
+			padding: 0;
+		}
+	}
+
+	img {
+		display: block;
+		min-width: 100%;
+	}
+
+	.contributions {
+		display: grid;
+		grid-gap: 1rem;
+		grid-template-columns: repeat(auto-fit, minmax(1em, 10%));
+	}
+}

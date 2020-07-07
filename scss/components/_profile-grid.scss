@@ -1,0 +1,5 @@
+.profile-grid {
+	display: grid;
+	grid-gap: var(--gutter);
+	grid-template-columns: repeat(auto-fit, minmax(10rem, 25%));
+}
