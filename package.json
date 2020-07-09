@@ -32,6 +32,7 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-markdown": "^4.3.1",
+    "react-spring": "^8.0.27",
     "remark-behead": "^2.3.2",
     "remark-shortcodes": "^0.3.1",
     "sass": "^1.26.9",

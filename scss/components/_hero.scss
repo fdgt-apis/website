@@ -14,9 +14,16 @@ section.hero {
 		border: none;
 	}
 
-	#mote {
+	.mote-wrapper {
+		align-items: center;
+		display: flex;
 		font-size: 10em;
+		justify-content: center;
 		margin-right: 4rem;
+
+		.mote {
+			margin: 0;
+		}
 	}
 
 	.call-to-action {

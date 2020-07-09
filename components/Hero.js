@@ -1,7 +1,10 @@
 // Module imports
+import React, {
+	useCallback,
+	useRef,
+} from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Link from 'next/link'
-import React from 'react'
 
 
 
@@ -9,7 +12,7 @@ import React from 'react'
 
 // Local imports
 import { FDGT } from 'components/FDGT'
-import Mote from 'public/images/mote.svg'
+import { SpinnyMote } from 'components/SpinnyMote'
 
 
 
@@ -17,7 +20,7 @@ import Mote from 'public/images/mote.svg'
 
 export const Hero = () => (
 	<section className="hero">
-		<Mote />
+		<SpinnyMote />
 
 		<div className="call-to-action">
 			<h2><FDGT /></h2>

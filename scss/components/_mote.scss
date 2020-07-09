@@ -312,7 +312,7 @@
 	}
 }
 
-#mote {
+.mote {
 	--angriness-level: 0;
 	--sadness-level: 0;
 
@@ -385,5 +385,22 @@
 		animation-timing-function: cubic-bezier(.52,.12,.63,.94);
 		animation-iteration-count: infinite;
 		animation-name: mote-search;
+	}
+}
+
+.spinny-mote {
+	position: relative;
+
+	// outer Motes
+	> :not(:first-child) {
+		position: absolute;
+	}
+
+	> :nth-child(3) {
+		display: none;
+	}
+
+	> :nth-child(4) {
+		display: none;
 	}
 }
