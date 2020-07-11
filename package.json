@@ -35,6 +35,7 @@
     "remark-behead": "^2.3.2",
     "remark-shortcodes": "^0.3.1",
     "sass": "^1.26.10",
+    "tmi.js": "^1.5.0",
     "vercel": "^19.1.1"
   },
   "devDependencies": {

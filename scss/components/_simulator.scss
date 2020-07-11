@@ -1,0 +1,57 @@
+.simulator {
+	bottom: 0;
+	display: flex;
+	flex-direction: column;
+	height: 40vh;
+	position: absolute;
+	right: 0;
+	width: 40vw;
+
+	.status {
+		background-color: var(--nights);
+		color: var(--white);
+		padding: 1rem;
+	}
+
+	.channel {
+		background-color: var(--black-ops);
+		color: var(--white);
+		flex-grow: 1;
+		overflow: auto;
+		padding: 1rem;
+
+		ol {
+			display: flex;
+			flex-direction: column;
+			justify-content: flex-end;
+		}
+
+		li {
+			display: grid;
+			grid-gap: 1rem;
+			grid-template-columns: auto 1fr;
+		}
+	}
+
+	form {
+		background-color: var(--black-ops);
+		display: grid;
+		grid-template-columns: 1fr auto;
+	}
+
+	input {
+		background-color: rgba(white, 0.15);
+		border: none;
+		border-radius: none;
+		color: var(--white);
+		font-family: inherit;
+		font-size: inherit;
+		margin: 0;
+		padding: 1rem;
+	}
+
+	button {
+		background-color: var(--nights);
+		color: var(--white);
+	}
+}
