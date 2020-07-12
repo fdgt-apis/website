@@ -13,6 +13,22 @@ const SimulatorChannel = props => {
 	const { events } = props
 	const newestMessageRef = useRef(null)
 
+	useEffect(() => {
+		const newestMessageEl = newestMessageRef.current
+
+		if (newestMessageEl) {
+			const {
+				offsetHeight,
+				scrollTop,
+				scrollHeight,
+			} = newestMessageEl.parentElement.parentElement
+
+			if ((offsetHeight + scrollTop) !== scrollHeight) {
+				newestMessageEl.scrollIntoView({ behavior: 'smooth' })
+			}
+		}
+	}, [events])
+
 	return (
 		<ol>
 			{events.map((event, index) => {
