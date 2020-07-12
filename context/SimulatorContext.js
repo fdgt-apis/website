@@ -57,21 +57,6 @@ const SimulatorContextProvider = props => {
 		})
 	}, [setChannels])
 
-	const handleConnected = useCallback(() => {
-		setIsConnected(true)
-		setIsConnecting(false)
-	}, [
-		setIsConnected,
-		setIsConnecting,
-	])
-	const handleConnecting = useCallback(() => {
-		setIsConnected(false)
-		setIsConnecting(true)
-	}, [
-		setIsConnected,
-		setIsConnecting,
-	])
-
 	const handleJoin = useCallback((channelName, username, self) => {
 		if (self) {
 			setChannels(oldChannels => ({
@@ -133,6 +118,11 @@ const SimulatorContextProvider = props => {
 		const parsedMessage = parseIRCMessage(data)
 
 		switch (parsedMessage.command) {
+			case '376':
+				setIsConnected(true)
+				setIsConnecting(false)
+				break
+
 			case 'PRIVMSG':
 				handlePRIVMSG(parsedMessage)
 				break
@@ -148,19 +138,43 @@ const SimulatorContextProvider = props => {
 	}, [
 		handlePRIVMSG,
 		handleUSERNOTICE,
+		setIsConnected,
+		setIsConnecting,
 	])
+
+	const handleSocketClose = useCallback(() => {
+		setIsConnected(false)
+	}, [setIsConnected])
 
 	const handleSocketOpen = useCallback(() => {
 		socket.send('CAP REQ :twitch.tv/tags twitch.tv/commands twitch.tv/membership')
 		socket.send('PASS oauth:definitely-a-token')
 		socket.send('NICK fdgt-test')
 		socket.send('JOIN #fdgt')
-	}, [])
 
-	const sendMessage = useCallback((channelName, message) => socket.send(`PRIVMSG ${channelName.replace(/^#/, '')} :${message}`), [])
+		setIsConnecting(false)
+		setIsConnected(true)
+	}, [setIsConnected])
+
+	const sendMessage = useCallback((channelName, message) => {
+		const timestampMS = Date.now()
+
+		addEvent(channelName, {
+			message,
+			timestamp: moment(timestampMS).format('HH:mm'),
+			timestampMS,
+			type: 'message',
+			user: {
+				color: 'var(--dragon)',
+				name: 'fdgt-user',
+			},
+		})
+		socket.send(`PRIVMSG ${channelName.replace(/^#/, '')} :${message}`)
+	}, [])
 
 	useEffect(() => {
 		socket = new WebSocket('wss://irc.fdgt.dev')
+		socket.onclose = handleSocketClose
 		socket.onmessage = handleSocketMessage
 		socket.onopen = handleSocketOpen
 

@@ -7,10 +7,41 @@
 	right: 0;
 	width: 40vw;
 
-	.status {
+	header {
 		background-color: var(--nights);
 		color: var(--white);
-		padding: 1rem;
+		position: relative;
+
+		h2 {
+			font-size: 1em;
+			padding: 0.5rem 1rem;
+		}
+	}
+
+	.status {
+		background-color: var(--dragon);
+		color: var(--white);
+		font-size: 0.8em;
+		font-style: italic;
+		left: 0;
+		opacity: 1;
+		padding: 0.5rem 1rem;
+		position: absolute;
+		right: 0;
+		top: calc(100% - 1px);
+		transform: translateY(0);
+		transition-duration: 1s;
+		transition-property:
+			opacity,
+			transform;
+
+		&[hidden] {
+			display: initial;
+			opacity: 0;
+			pointer-events: none;
+			transform: translateY(-100%);
+			transition-delay: 0.5s;
+		}
 	}
 
 	.channel {
@@ -19,7 +50,6 @@
 		color: var(--white);
 		flex-grow: 1;
 		overflow: auto;
-		padding: 1rem;
 
 		ol {
 			display: flex;
@@ -34,6 +64,18 @@
 			display: grid;
 			grid-gap: 1rem;
 			grid-template-columns: auto 1fr;
+			padding: 1rem;
+
+			time {
+				opacity: 0.5;
+			}
+		}
+
+		.subscription {
+			background-color: rgba(white, 0.15);
+			border-left-color: var(--wipe-out);
+			border-left-style: solid;
+			border-left-width: 0.5rem;
 		}
 	}
 

@@ -40,11 +40,17 @@ export const Simulator = () => {
 
 	return (
 		<div className="simulator">
-			<div className="status">
-				{isConnecting && 'Connecting...'}
-				{(!isConnecting && isConnected) && 'Connected!'}
-				{(!isConnecting && !isConnected) && 'Disconnected. 😞'}
-			</div>
+			<header>
+				<h2>Simulator</h2>
+
+				<div
+					className="status"
+					hidden={isConnected}>
+					{isConnecting && 'Connecting...'}
+					{(!isConnecting && isConnected) && 'Connected!'}
+					{(!isConnecting && !isConnected) && 'Disconnected. 😞'}
+				</div>
+			</header>
 
 			<div className="channel">
 				{Object.entries(channels).map(([channelName, events]) => (
