@@ -46,11 +46,13 @@ export const Simulator = () => {
 				{(!isConnecting && !isConnected) && 'Disconnected. 😞'}
 			</div>
 
-			{Object.entries(channels).map(([channelName, events]) => (
-				<SimulatorChannel
-					events={events}
-					key={channelName} />
-			))}
+			<div className="channel">
+				{Object.entries(channels).map(([channelName, events]) => (
+					<SimulatorChannel
+						events={events}
+						key={channelName} />
+				))}
+			</div>
 
 			<form onSubmit={handleMessageSubmit}>
 				<input

@@ -14,6 +14,7 @@
 	}
 
 	.channel {
+		align-content: stretch;
 		background-color: var(--black-ops);
 		color: var(--white);
 		flex-grow: 1;
@@ -23,7 +24,10 @@
 		ol {
 			display: flex;
 			flex-direction: column;
+			flex-grow: 1;
+			flex-shrink: 0;
 			justify-content: flex-end;
+			min-height: 100%;
 		}
 
 		li {

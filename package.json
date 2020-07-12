@@ -19,6 +19,7 @@
     "classnames": "^2.2.6",
     "copy-webpack-plugin": "^6.0.3",
     "frontmatter": "^0.0.3",
+    "irc-message": "^3.0.2",
     "localforage": "^1.7.4",
     "moment": "^2.27.0",
     "next": "^9.4.1",
@@ -35,7 +36,6 @@
     "remark-behead": "^2.3.2",
     "remark-shortcodes": "^0.3.1",
     "sass": "^1.26.10",
-    "tmi.js": "^1.5.0",
     "vercel": "^19.1.1"
   },
   "devDependencies": {

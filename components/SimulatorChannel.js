@@ -1,6 +1,9 @@
 // Module imports
+import React, {
+	useEffect,
+	useRef,
+} from 'react'
 import PropTypes from 'prop-types'
-import React from 'react'
 
 
 
@@ -8,62 +11,70 @@ import React from 'react'
 
 const SimulatorChannel = props => {
 	const { events } = props
+	const newestMessageRef = useRef(null)
 
 	return (
-		<div className="channel">
-			<ol>
-				{events.map((event, index) => {
-					const {
-						message,
-						method,
-						timestamp,
-						ts,
-						type,
-						user,
-					} = event
+		<ol>
+			{events.map((event, index) => {
+				const {
+					details,
+					message,
+					timestamp,
+					timestampMS,
+					type,
+					user,
+				} = event
+				let ref = null
 
-					switch (type) {
-						case 'subscription':
-							return (
-								<li
-									className="subscription"
-									key={index}>
-									<time value={ts}>{timestamp}</time>
-									<p>
-										<strong className="username">{user.name}</strong><br />
-										{(method.plan === 'Prime') && (
-											<>
-												<strong>Subscribed</strong> with <span className="plan-name">Twitch Prime</span>
-											</>
-										)}
-										{(method.plan !== 'Prime') && (
-											<>
-												<strong>Subscribed</strong> at Tier {method.plan / 1000}
-											</>
-										)}
-									</p>
-								</li>
-							)
+				if (index === (events.length - 1)) {
+					ref = newestMessageRef
+				}
 
-						case 'message':
-							default:
-								return (
-									<li
-										className="message"
-										key={index}>
-										<time value={ts}>{timestamp}</time>
-										<p>
-											<span style={{ color: user.color }}>
-												<strong>{`${user.name}: `}</strong>
-											</span>
-											<span>{message}</span>
-										</p>
-									</li>
-								)
-					}
-				})}
-			</ol>
-		</div>
+				switch (type) {
+					case 'sub':
+						return (
+							<li
+								className="subscription"
+								key={index}
+								ref={ref}>
+								<time value={timestamp}>{timestamp}</time>
+								<p>
+									<strong className="username">{user.name}</strong><br />
+									{(details.plan === 'Prime') && (
+										<>
+											<strong>Subscribed</strong> with <span className="plan-name">Twitch Prime</span>
+										</>
+									)}
+									{(details.plan !== 'Prime') && (
+										<>
+											<strong>Subscribed</strong> at Tier {details.plan / 1000}
+										</>
+									)}
+								</p>
+							</li>
+						)
+
+					case 'message':
+						return (
+							<li
+								className="message"
+								key={index}
+								ref={ref}>
+								<time value={timestamp}>{timestamp}</time>
+								<p>
+									<span style={{ color: user.color }}>
+										<strong>{`${user.name}: `}</strong>
+									</span>
+									<span>{message}</span>
+								</p>
+							</li>
+						)
+
+					default:
+						return null
+				}
+			})}
+		</ol>
 	)
 }
 

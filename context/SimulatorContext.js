@@ -4,32 +4,15 @@ import React, {
 	useEffect,
 	useState,
 } from 'react'
+import { parse as parseIRCMessage } from 'irc-message'
 import moment from 'moment'
 import PropTypes from 'prop-types'
-import tmi from 'tmi.js'
-
-
-
-
-
-// Local imports
-import { useTMIEvent } from 'hooks/useTMIEvent'
 
 
 
 
 
 // Local constants
-const client = new tmi.Client({
-	channels: [ 'fdgt' ],
-	connection: {
-		server: 'irc.fdgt.dev',
-	},
-	identity: {
-		username: 'fdgt-test',
-		password: 'oauth:definitely-a-token'
-	},
-})
 const SimulatorContext = React.createContext({
 	isConnecting: false,
 	isConnected: false,
@@ -43,20 +26,26 @@ const SimulatorContext = React.createContext({
 
 
 
+// Local variables
+let socket = null
+
+
+
+
+
 const SimulatorContextProvider = props => {
 	const { children } = props
 
 	const [channels, setChannels] = useState({})
-	const [isConnecting, setIsConnecting] = useState(false)
+	const [isConnecting, setIsConnecting] = useState(true)
 	const [isConnected, setIsConnected] = useState(false)
 
-	const joinChannel = useCallback(() => {}, [])
-	const partChannel = useCallback(() => {}, [])
-	const sendMessage = useCallback((channel, message) => client.say(channel, message), [])
+	const joinChannel = useCallback(channelName => socket.send(`JOIN #${channelName.replace(/^#/, '')}`), [])
+	const partChannel = useCallback(channelName => socket.send(`PART #${channelName.replace(/^#/, '')}`), [])
 
 	const addEvent = useCallback((channelName, event) => {
 		setChannels(oldChannels => {
-			const events = oldChannels[channelName]
+			const events = oldChannels[channelName] || []
 
 			return {
 				...oldChannels,
@@ -82,6 +71,7 @@ const SimulatorContextProvider = props => {
 		setIsConnected,
 		setIsConnecting,
 	])
+
 	const handleJoin = useCallback((channelName, username, self) => {
 		if (self) {
 			setChannels(oldChannels => ({
@@ -90,45 +80,91 @@ const SimulatorContextProvider = props => {
 			}))
 		}
 	}, [setChannels])
-	const handleMessage = useCallback((channelName, userstate, message, self) => {
-		const ts = self ? undefined : parseInt(userstate['tmi-sent-ts'], 10)
+	const handlePRIVMSG = useCallback(parsedMessage => {
+		const {
+			params: [
+				channelName,
+				message,
+			],
+			prefix,
+			tags,
+		} = parsedMessage
+		const self = prefix.replace(/\w+?!(\w+?)@\w+?\.tmi\.twitch\.tv/, '$1') === 'fdgt-test'
+		const timestampMS = self ? undefined : parseInt(tags['tmi-sent-ts'], 10)
 
 		addEvent(channelName, {
 			message,
-			timestamp: moment(ts).format('HH:mm'),
-			ts,
+			timestamp: moment(timestampMS).format('HH:mm'),
+			timestampMS,
 			type: 'message',
 			user: {
-				color: userstate.color,
-				name: userstate['display-name'],
+				color: tags.color,
+				name: tags['display-name'],
 			},
 		})
 	}, [addEvent])
-	const handleSubscription = useCallback((channelName, username, method, message, userstate) => {
-		const ts = parseInt(userstate['tmi-sent-ts'], 10)
+	const handleUSERNOTICE = useCallback(parsedMessage => {
+		const {
+			params: [
+				channelName,
+				message,
+			],
+			tags,
+		} = parsedMessage
+		const timestampMS = parseInt(tags['tmi-sent-ts'], 10)
 
 		addEvent(channelName, {
-			method,
-			timestamp: moment(ts).format('HH:mm'),
-			ts,
-			type: 'subscription',
+			details: {
+				name: tags['msg-param-sub-plan-name'],
+				plan: tags['msg-param-sub-plan'],
+			},
+			message,
+			timestamp: moment(timestampMS).format('HH:mm'),
+			timestampMS,
+			type: tags['msg-id'],
 			user: {
-				color: userstate.color,
-				name: userstate['display-name'],
+				color: tags.color,
+				name: tags['display-name'],
 			},
 		})
 	}, [addEvent])
 
-	useTMIEvent(client, 'connecting', handleConnecting)
-	useTMIEvent(client, 'connected', handleConnected)
-	useTMIEvent(client, 'join', handleJoin)
-	useTMIEvent(client, 'message', handleMessage)
-	useTMIEvent(client, 'subscription', handleSubscription)
+	const handleSocketMessage = useCallback(({ data }) => {
+		const parsedMessage = parseIRCMessage(data)
+
+		switch (parsedMessage.command) {
+			case 'PRIVMSG':
+				handlePRIVMSG(parsedMessage)
+				break
+
+			case 'PING':
+				socket.send('PONG')
+				break
+
+			case 'USERNOTICE':
+				handleUSERNOTICE(parsedMessage)
+				break
+		}
+	}, [
+		handlePRIVMSG,
+		handleUSERNOTICE,
+	])
+
+	const handleSocketOpen = useCallback(() => {
+		socket.send('CAP REQ :twitch.tv/tags twitch.tv/commands twitch.tv/membership')
+		socket.send('PASS oauth:definitely-a-token')
+		socket.send('NICK fdgt-test')
+		socket.send('JOIN #fdgt')
+	}, [])
+
+	const sendMessage = useCallback((channelName, message) => socket.send(`PRIVMSG ${channelName.replace(/^#/, '')} :${message}`), [])
 
 	useEffect(() => {
-		client.connect()
+		socket = new WebSocket('wss://irc.fdgt.dev')
+		socket.onmessage = handleSocketMessage
+		socket.onopen = handleSocketOpen
 
-		return () => client.disconnect()
+		return () => socket.close()
 	}, [])
 
 	return (
