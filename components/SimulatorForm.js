@@ -78,13 +78,6 @@ export const SimulatorForm = () => {
 			newActiveIndex = autocompleteList.length - 1
 		}
 
-		// Down
-		// newActiveIndex = autocompleteActiveIndex + 1
-
-		// if (newActiveIndex > autocompleteList.length - 1) {
-		// 	newActiveIndex = 0
-		// }
-
 		return setAutocompleteActiveIndex(newActiveIndex)
 	}, [
 		autocompleteActiveIndex,
@@ -122,7 +115,7 @@ export const SimulatorForm = () => {
 				handleUpArrowKey(event)
 				break
 
-			case 38:
+			case 40:
 				handleDownArrowKey(event)
 				break
 		}
@@ -156,6 +149,10 @@ export const SimulatorForm = () => {
 		setMessage,
 	])
 
+	const handleMouseOverAutocompleteItem = useCallback(index => () => {
+		setAutocompleteActiveIndex(index)
+	}, [setAutocompleteActiveIndex])
+
 	useEffect(() => {
 		const inputElement = inputRef.current
 		inputElement.addEventListener('keydown', handleKeydown)
@@ -183,6 +180,7 @@ export const SimulatorForm = () => {
 									active: autocompleteActiveIndex === autocompleteIndex,
 								})}
 								onClick={handleAutocompleteSelection}
+								onMouseOver={handleMouseOverAutocompleteItem(autocompleteIndex)}
 								type="button"
 								value={item}>
 								{indices.map((match, index) => {

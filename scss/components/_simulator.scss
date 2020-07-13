@@ -1,10 +1,11 @@
 .simulator {
 	bottom: 0;
+	box-shadow: 0 0 1rem var(--black-ops);
 	display: flex;
 	flex-direction: column;
 	height: 40vh;
 	position: absolute;
-	right: 0;
+	right: var(--gutter);
 	width: 40vw;
 
 	header {
