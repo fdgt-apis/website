@@ -1,9 +1,6 @@
 // Module imports
 import React, {
-	useCallback,
 	useContext,
-	useEffect,
-	useState,
 } from 'react'
 
 
@@ -13,30 +10,18 @@ import React, {
 // Local imports
 import { SimulatorChannel } from 'components/SimulatorChannel'
 import { SimulatorContext } from 'context/SimulatorContext'
+import { SimulatorForm } from 'components/SimulatorForm'
 
 
 
 
 
 export const Simulator = () => {
-	const [message, setMessage] = useState('')
 	const {
 		channels,
 		isConnected,
 		isConnecting,
-		sendMessage,
 	} = useContext(SimulatorContext)
-
-	const handleMessageChange = useCallback(event => setMessage(event.target.value), [setMessage])
-	const handleMessageSubmit = useCallback(event => {
-		event.preventDefault()
-		sendMessage('#fdgt', message)
-		setMessage('')
-	}, [
-		message,
-		sendMessage,
-		setMessage,
-	])
 
 	return (
 		<div className="simulator">
@@ -60,13 +45,7 @@ export const Simulator = () => {
 				))}
 			</div>
 
-			<form onSubmit={handleMessageSubmit}>
-				<input
-					onChange={handleMessageChange}
-					value={message} />
-
-				<button type="submit">Send</button>
-			</form>
+			<SimulatorForm />
 		</div>
 	)
 }

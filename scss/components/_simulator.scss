@@ -81,8 +81,29 @@
 
 	form {
 		background-color: var(--black-ops);
+		color: var(--white);
 		display: grid;
 		grid-template-columns: 1fr auto;
+		position: relative;
+
+		.autocomplete {
+			bottom: 100%;
+			display: flex;
+			flex-direction: column;
+			left: 0;
+			position: absolute;
+			right: 0;
+
+			button {
+				padding: 0 1rem;
+				text-align: left;
+				width: 100%;
+
+				&.active {
+					background-color: var(--dragon);
+				}
+			}
+		}
 	}
 
 	input {
