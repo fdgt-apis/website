@@ -15,8 +15,11 @@ import Fuse from 'fuse.js'
 
 
 // Local imports
+import { getWordFromIndex } from 'helpers/getWordFromIndex'
+import { replaceRangeInString } from 'helpers/replaceRangeInString'
 import { SimulatorContext } from 'context/SimulatorContext'
 import { useAsync } from 'hooks/useAsync'
+import { useFetch } from 'hooks/useFetch'
 
 
 
@@ -36,21 +39,56 @@ export const SimulatorForm = () => {
 	const [autocompleteActiveIndex, setAutocompleteActiveIndex] = useState(0)
 	const [autocompleteList, setAutocompleteList] = useState([])
 	const [message, setMessage] = useState('')
+	const retrieveCommandParams = useRef({})
 	const {
 		isConnected,
 		isConnecting,
 		sendMessage,
 	} = useContext(SimulatorContext)
+	const {
+		error: commandsFetchError,
+		pending: commandsFetchIsPending,
+		value: commandsFetchResponse,
+	} = useFetch({
+		url: `${process.env.NEXT_PUBLIC_FDGT_API_URL}/fdgt/v1/commands?includeParams=true`,
+	}, [])
+
+	const commandsData = commandsFetchResponse?.data || {}
+	const commands = Object.keys(commandsData)
+
+	useEffect(() => {
+		if (!commandsFetchIsPending) {
+			fuse.setCollection(commands)
+		}
+	}, [
+		commands,
+		commandsFetchIsPending,
+	])
+
+	const contextuallyUpdateMessage = useCallback(newValue => {
+		const cursorPosition = inputRef.current.selectionStart
+		const {
+			range: [start, end],
+			result,
+		} = getWordFromIndex(message, cursorPosition)
+
+		if (result.startsWith('--')) {
+			newValue = ` --${newValue}`
+		}
+
+		setMessage(replaceRangeInString(message, newValue, start, end))
+	}, [
+		message,
+		setMessage,
+	])
 
 	const handleAutocompleteSelection = useCallback(event => {
+		contextuallyUpdateMessage(event.target.value)
 		setAutocompleteList([])
-		setAutocompleteActiveIndex(0)
-		setMessage(event.target.value)
 		inputRef.current?.focus()
 	}, [
-		setAutocompleteActiveIndex,
+		contextuallyUpdateMessage,
 		setAutocompleteList,
-		setMessage,
 	])
 
 	const handleDownArrowKey = useCallback(event => {
@@ -88,17 +126,15 @@ export const SimulatorForm = () => {
 	const handleEnterKey = useCallback(event => {
 		if (autocompleteList.length) {
 			event.preventDefault()
-			setMessage(autocompleteList[autocompleteActiveIndex].item)
+			contextuallyUpdateMessage(autocompleteList[autocompleteActiveIndex].item)
 			setAutocompleteList([])
-			setAutocompleteActiveIndex(0)
 			inputRef.current.focus()
 		}
 	}, [
 		autocompleteList,
 		autocompleteActiveIndex,
-		setAutocompleteActiveIndex,
+		contextuallyUpdateMessage,
 		setAutocompleteList,
-		setMessage,
 	])
 
 	const handleKeydown = useCallback(event => {
@@ -120,21 +156,39 @@ export const SimulatorForm = () => {
 				break
 		}
 	}, [
-		autocompleteActiveIndex,
-		autocompleteList,
-		setAutocompleteActiveIndex,
-		setAutocompleteList,
-		setMessage,
+		handleDownArrowKey,
+		handleEnterKey,
+		handleUpArrowKey,
 	])
 
 	const handleMessageChange = useCallback(event => {
 		const { value } = event.target
-		const results = fuse.search(value).reverse()
+		const [command, ...args] = value.split(' ')
+		const commandIsValid = fuse._docs.includes(command)
+		const cursorPosition = inputRef.current.selectionStart
+
+		const { result: currentAutocompleteTarget } = getWordFromIndex(value, cursorPosition)
+
+		if (currentAutocompleteTarget === command) {
+			fuse.setCollection(commands || [])
+		} else if (currentAutocompleteTarget?.startsWith('--')) {
+			fuse.setCollection((commandsData?.[command] || []).map(({ name }) => name))
+		} else {
+			fuse.setCollection([])
+		}
+
+		if (currentAutocompleteTarget) {
+			const results = fuse.search(currentAutocompleteTarget.replace(/^--/, '')).reverse()
+			setAutocompleteList(results)
+			setAutocompleteActiveIndex(results.length - 1)
+		} else {
+			setAutocompleteList([])
+		}
 
 		setMessage(value)
-		setAutocompleteList(results)
-		setAutocompleteActiveIndex(results.length - 1)
 	}, [
+		commands,
+		message,
 		setAutocompleteList,
 		setMessage,
 	])
@@ -158,11 +212,6 @@ export const SimulatorForm = () => {
 		inputElement.addEventListener('keydown', handleKeydown)
 		return () => inputElement.removeEventListener('keydown', handleKeydown)
 	}, [handleKeydown])
-
-	useAsync(async () => {
-		const { data } = await fetch('https://api.fdgt.dev/fdgt/v1/commands').then(response => response.json())
-		fuse.setCollection(data)
-	}, [])
 
 	return (
 		<form onSubmit={handleMessageSubmit}>

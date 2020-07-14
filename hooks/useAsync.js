@@ -1,14 +1,56 @@
 // Module imports
-import { useEffect } from 'react'
+import {
+	useCallback,
+	useEffect,
+	useState,
+} from 'react'
 
 
 
 
 
-export const useAsync = (handler, dependencies = []) => {
+export const useAsync = (options, dependencies = []) => {
+	const {
+		handler,
+		immediate = true
+	} = options
+
+	const [pending, setPending] = useState(false)
+	const [error, setError] = useState(null)
+	const [value, setValue] = useState(null)
+
+	const execute = useCallback(() => {
+		setPending(true)
+    setValue(null)
+		setError(null)
+
+		return handler()
+			.then(response => setValue(response))
+			.catch(error => setError(error))
+			.finally(() => setPending(false))
+	}, [
+		setError,
+		setPending,
+		setValue,
+		handler,
+	])
+
 	useEffect(() => {
-		(async () => await handler())()
+		if (immediate) {
+      execute()
+		}
 
 		return () => {}
-	}, dependencies)
+	}, [
+		...dependencies,
+		execute,
+		immediate,
+	])
+
+	return {
+		error,
+		execute,
+		pending,
+		value,
+	}
 }

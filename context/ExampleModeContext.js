@@ -1,5 +1,7 @@
 // Module imports
 import React, {
+	useCallback,
+	useEffect,
 	useState,
 } from 'react'
 import LocalForage from 'localforage'
@@ -35,15 +37,32 @@ const ExampleModeContextProvider = props => {
 	const [currentExampleMode, setCurrentExampleMode] = useState(null)
 	const [exampleModes, setExampleModes] = useState([])
 
-	useAsync(async () => {
+	const getPersistedExampleMode = useCallback(async () => {
 		const persistedExampleMode = await LocalForage.getItem('fdgt.example-mode')
 
 		if (!persistedExampleMode) {
 			await LocalForage.setItem('fdgt.example-mode', 'tmi.js')
 		}
 
-		setCurrentExampleMode(persistedExampleMode || 'tmi.js')
-	})
+		return persistedExampleMode || 'tmi.js'
+	}, [])
+
+	const {
+		pending: persistentExampleModeIsPending,
+		value: persistentExampleModeValue,
+	} = useAsync({
+		handler: getPersistedExampleMode,
+	}, [])
+
+	useEffect(() => {
+		if (!persistentExampleModeIsPending) {
+			setCurrentExampleMode(persistentExampleModeValue)
+		}
+	}, [
+		setCurrentExampleMode,
+		persistentExampleModeIsPending,
+		persistentExampleModeValue,
+	])
 
 	return (
 		<ExampleModeContext.Provider

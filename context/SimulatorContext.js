@@ -173,7 +173,7 @@ const SimulatorContextProvider = props => {
 	}, [])
 
 	useEffect(() => {
-		socket = new WebSocket('wss://irc.fdgt.dev')
+		socket = new WebSocket(process.env.NEXT_PUBLIC_FDGT_WEBSOCKET_URL)
 		socket.onclose = handleSocketClose
 		socket.onmessage = handleSocketMessage
 		socket.onopen = handleSocketOpen
