@@ -4,6 +4,7 @@
     ["prismjs", {
         "languages": [
 					"csharp",
+					"java",
 					"javascript"
 				],
         "plugins": [],
