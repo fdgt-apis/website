@@ -1,27 +1,19 @@
 .simulator {
 	bottom: 0;
 	box-shadow: 0 0 1rem var(--black-ops);
-	display: grid;
-	grid-template-areas:
-		'header header'
-		'channel-list channel'
-		'channel-list form';
-	grid-template-columns: auto 1fr;
-	grid-template-rows: auto 1fr auto;
 	position: absolute;
 	right: var(--gutter);
-	transition-duration: 0.2s;
-	transition-property:
-		min-height,
-		min-width;
-	max-height: 40vh;
-	max-width: 40vw;
-	min-height: 0;
-	min-width: 0;
 
-	&[data-open=true] {
-		min-height: 40vh;
-		min-width: 40vw;
+	> div {
+		display: grid;
+		grid-template-areas:
+			'header header'
+			'channel-list channel'
+			'channel-list form';
+		grid-template-columns: auto 1fr;
+		grid-template-rows: auto 1fr auto;
+		max-height: 40vh;
+		overflow: hidden;
 	}
 
 	header {
@@ -43,32 +35,6 @@
 
 		menu {
 			margin-left: auto;
-		}
-	}
-
-	.status {
-		background-color: var(--dragon);
-		color: var(--white);
-		font-size: 0.8em;
-		font-style: italic;
-		left: 0;
-		opacity: 1;
-		padding: 0.5rem 1rem;
-		position: absolute;
-		right: 0;
-		top: calc(100% - 1px);
-		transform: translateY(0);
-		transition-duration: 1s;
-		transition-property:
-			opacity,
-			transform;
-
-		&[hidden] {
-			display: initial;
-			opacity: 0;
-			pointer-events: none;
-			transform: translateY(-100%);
-			transition-delay: 0.5s;
 		}
 	}
 

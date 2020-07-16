@@ -4,8 +4,13 @@ import React, {
 	useContext,
 	useState,
 } from 'react'
+import {
+  animated,
+  useSpring,
+} from 'react-spring'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import classnames from 'classnames'
+import useResizeAware from 'react-resize-aware'
 
 
 
@@ -23,11 +28,23 @@ import { SimulatorForm } from 'components/SimulatorForm'
 export const Simulator = () => {
 	const [currentChannel, setCurrentChannel] = useState('status')
 	const [isOpen, setIsOpen] = useState(false)
-	const {
-		channels,
-		isConnected,
-		isConnecting,
-	} = useContext(SimulatorContext)
+	const { channels } = useContext(SimulatorContext)
+  const [resizeListener, { height }] = useResizeAware()
+  const spring = useSpring({
+    from: {
+      height: '0vh',
+      width: '10rem',
+    },
+    to: async next => {
+			if (isOpen) {
+				await next({ width: '40vw' })
+				await next({ height: '40vh' })
+			} else {
+				await next({ height: '0vh' })
+				await next({ width: '10rem' })
+			}
+		},
+  })
 
 	const handleClose = useCallback(() => setIsOpen(false), [setIsOpen])
 	const handleOpen = useCallback(() => setIsOpen(true), [setIsOpen])
@@ -37,9 +54,7 @@ export const Simulator = () => {
 	}, [setCurrentChannel])
 
 	return (
-		<div
-			className="simulator"
-			data-open={isOpen}>
+		<div className="simulator">
 			<header>
 				<h2>Simulator</h2>
 
@@ -64,40 +79,36 @@ export const Simulator = () => {
 						</button>
 					)}
 				</menu>
-
-				<div
-					className="status"
-					hidden={isConnected}>
-					{isConnecting && 'Connecting...'}
-					{(!isConnecting && isConnected) && 'Connected!'}
-					{(!isConnecting && !isConnected) && 'Disconnected. 😞'}
-				</div>
 			</header>
 
-			<ul className="channel-list">
-				{Object.keys(channels).map(channelName => (
-					<li key={channelName}>
-						<button
-							className={classnames({
-								active: (currentChannel === channelName),
-							})}
-							onClick={handleChannelClick}
-							type="button"
-							value={channelName}>
-							{channelName}
-						</button>
-					</li>
-				))}
-			</ul>
+			<animated.div style={spring}>
+				{resizeListener}
 
-			<div className="channel">
-				<SimulatorChannel
-					channelName={currentChannel}
-					events={channels[currentChannel]}
-					key={currentChannel} />
-			</div>
+				<ul className="channel-list">
+					{Object.keys(channels).map(channelName => (
+						<li key={channelName}>
+							<button
+								className={classnames({
+									active: (currentChannel === channelName),
+								})}
+								onClick={handleChannelClick}
+								type="button"
+								value={channelName}>
+								{channelName}
+							</button>
+						</li>
+					))}
+				</ul>
 
-			<SimulatorForm />
+				<div className="channel">
+					<SimulatorChannel
+						channelName={currentChannel}
+						events={channels[currentChannel]}
+						key={currentChannel} />
+				</div>
+
+				<SimulatorForm />
+			</animated.div>
 		</div>
 	)
 }
