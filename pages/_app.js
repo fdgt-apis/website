@@ -25,6 +25,7 @@ import React from 'react'
 import { Banner } from 'components/Banner'
 import { Brand } from 'components/Brand'
 import { ExampleModeContextProvider } from 'context/ExampleModeContext'
+import { Simulator } from 'components/Simulator'
 import { SimulatorContextProvider } from 'context/SimulatorContext'
 import * as fasIcons from 'helpers/fasIconLibrary'
 import * as fabIcons from 'helpers/fabIconLibrary'
@@ -63,6 +64,7 @@ const App = ({ Component, pageProps }) => {
 				<Brand />
 				<Banner />
 				<Component {...pageProps} />
+				<Simulator />
 			</SimulatorContextProvider>
 		</ExampleModeContextProvider>
 	)
