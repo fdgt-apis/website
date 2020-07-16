@@ -17,12 +17,16 @@ const isSelf = parsedMessage => {
 	return parsedMessage.prefix.replace(/^[\w-]+?!([\w-]+?)@[\w-]+?\.tmi\.twitch\.tv/, '$1') === 'fdgt-test'
 }
 const SimulatorContext = React.createContext({
+	addMessage: () => {},
+	channels: {},
+	currentChannel: 'status',
+	handleChannelSelect: () => {},
 	isConnecting: false,
 	isConnected: false,
-	channels: {},
 	joinChannel: () => {},
 	partChannel: () => {},
 	sendMessage: () => {},
+	sendPING: () => {},
 })
 
 
@@ -39,9 +43,8 @@ let socket = null
 const SimulatorContextProvider = props => {
 	const { children } = props
 
-	const [channels, setChannels] = useState({
-		status: [],
-	})
+	const [channels, setChannels] = useState({ status: [] })
+	const [currentChannel, setCurrentChannel] = useState('status')
 	const [isConnecting, setIsConnecting] = useState(true)
 	const [isConnected, setIsConnected] = useState(false)
 
@@ -62,13 +65,26 @@ const SimulatorContextProvider = props => {
 		})
 	}, [setChannels])
 
+	const addMessage = useCallback((channelName, message, type = 'system') => {
+		const timestampMS = Date.now()
+
+		addEvent(channelName, {
+			message,
+			timestamp: moment(timestampMS).format('HH:mm'),
+			timestampMS,
+			type,
+		})
+	}, [addEvent])
+
+	const handleChannelSelect = useCallback(channelName => setCurrentChannel(channelName), [setCurrentChannel])
+
 	const handleSystemMessage = useCallback(parsedMessage => {
 		const {
 			params: [, message],
 		} = parsedMessage
 		const timestampMS = Date.now()
 		addEvent('status', {
-			message: message,
+			message,
 			timestamp: moment(timestampMS).format('HH:mm'),
 			timestampMS,
 			type: 'system',
@@ -91,6 +107,24 @@ const SimulatorContextProvider = props => {
 				...oldChannels,
 				[channelName]: [],
 			}))
+			setCurrentChannel(channelName)
+		}
+	}, [
+		setChannels,
+		currentChannel,
+	])
+
+	const handlePART = useCallback(parsedMessage => {
+		const {
+			params: [channelName],
+		} = parsedMessage
+
+		if (isSelf(parsedMessage)) {
+			setChannels(oldChannels => {
+				const newChannels = { ...oldChannels }
+				delete newChannels[channelName]
+				return newChannels
+			})
 		}
 	}, [setChannels])
 
@@ -161,6 +195,10 @@ const SimulatorContextProvider = props => {
 				handleJOIN(parsedMessage)
 				break
 
+			case 'PART':
+				handlePART(parsedMessage)
+				break
+
 			case 'PRIVMSG':
 				handlePRIVMSG(parsedMessage)
 				break
@@ -222,6 +260,8 @@ const SimulatorContextProvider = props => {
 		socket.send(`PRIVMSG ${channelName.replace(/^#/, '')} :${message}`)
 	}, [])
 
+	const sendPING = useCallback(() => socket.send('PING'), [])
+
 	useEffect(() => {
 		const timestampMS = Date.now()
 
@@ -243,12 +283,16 @@ const SimulatorContextProvider = props => {
 	return (
 		<SimulatorContext.Provider
 			value={{
+				addMessage,
 				channels,
+				currentChannel,
+				handleChannelSelect,
 				isConnecting,
 				isConnected,
 				joinChannel,
 				partChannel,
 				sendMessage,
+				sendPING,
 			}}>
 			{children}
 		</SimulatorContext.Provider>

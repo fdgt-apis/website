@@ -29,21 +29,32 @@ import { useFetch } from 'hooks/useFetch'
 const fuse = new Fuse([], {
 	includeMatches: true,
 })
+const ircCommands = [
+	'join',
+	'msg',
+	'part',
+	'ping',
+]
 
 
 
 
 
-export const SimulatorForm = () => {
+export const SimulatorForm = props => {
 	const inputRef = useRef(null)
 	const [autocompleteActiveIndex, setAutocompleteActiveIndex] = useState(0)
 	const [autocompleteList, setAutocompleteList] = useState([])
 	const [message, setMessage] = useState('')
 	const retrieveCommandParams = useRef({})
 	const {
+		addMessage,
+		currentChannel,
 		isConnected,
 		isConnecting,
+		joinChannel,
+		partChannel,
 		sendMessage,
+		sendPING,
 	} = useContext(SimulatorContext)
 	const {
 		error: commandsFetchError,
@@ -72,7 +83,9 @@ export const SimulatorForm = () => {
 			result,
 		} = getWordFromIndex(message, cursorPosition)
 
-		if (result.startsWith('--')) {
+		if (result.startsWith('/')) {
+			newValue = `/${newValue}`
+		} else if (result.startsWith('--')) {
 			newValue = ` --${newValue}`
 		}
 
@@ -83,6 +96,7 @@ export const SimulatorForm = () => {
 	])
 
 	const handleAutocompleteSelection = useCallback(event => {
+		console.log('handleAutocompleteSelection', event.target.value)
 		contextuallyUpdateMessage(event.target.value)
 		setAutocompleteList([])
 		inputRef.current?.focus()
@@ -170,7 +184,11 @@ export const SimulatorForm = () => {
 		const { result: currentAutocompleteTarget } = getWordFromIndex(value, cursorPosition)
 
 		if (currentAutocompleteTarget === command) {
-			fuse.setCollection(commands || [])
+			if (command.startsWith('/')) {
+				fuse.setCollection(ircCommands)
+			} else {
+				fuse.setCollection(commands || [])
+			}
 		} else if (currentAutocompleteTarget?.startsWith('--')) {
 			fuse.setCollection((commandsData?.[command] || []).map(({ name }) => name))
 		} else {
@@ -195,7 +213,35 @@ export const SimulatorForm = () => {
 
 	const handleMessageSubmit = useCallback(event => {
 		event.preventDefault()
-		sendMessage('#fdgt', message)
+
+		const [command] = message.split(' ')
+		const subMessage = message.split(' ').slice(1).join(' ')
+
+		if (command.startsWith('/')) {
+			switch (command) {
+				case '/join':
+					joinChannel(subMessage)
+					break
+
+				case '/msg':
+					sendMessage(currentChannel, subMessage)
+					break
+
+				case '/part':
+					partChannel(subMessage)
+					break
+
+				case '/ping':
+					sendPING()
+					break
+
+				default:
+					addMessage('status', `Unrecognized command: ${command}`)
+			}
+		} else {
+			sendMessage(currentChannel, message)
+		}
+
 		setMessage('')
 	}, [
 		message,

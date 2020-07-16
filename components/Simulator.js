@@ -26,9 +26,12 @@ import { SimulatorForm } from 'components/SimulatorForm'
 
 
 export const Simulator = () => {
-	const [currentChannel, setCurrentChannel] = useState('status')
 	const [isOpen, setIsOpen] = useState(false)
-	const { channels } = useContext(SimulatorContext)
+	const {
+		channels,
+		currentChannel,
+		handleChannelSelect,
+	} = useContext(SimulatorContext)
   const [resizeListener, { height }] = useResizeAware()
   const spring = useSpring({
     from: {
@@ -50,8 +53,8 @@ export const Simulator = () => {
 	const handleOpen = useCallback(() => setIsOpen(true), [setIsOpen])
 
 	const handleChannelClick = useCallback(event => {
-		setCurrentChannel(event.target.value)
-	}, [setCurrentChannel])
+		handleChannelSelect(event.target.value)
+	}, [handleChannelSelect])
 
 	return (
 		<div className="simulator">
@@ -107,7 +110,7 @@ export const Simulator = () => {
 						key={currentChannel} />
 				</div>
 
-				<SimulatorForm />
+				<SimulatorForm currentChannel={currentChannel} />
 			</animated.div>
 		</div>
 	)
