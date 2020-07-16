@@ -95,6 +95,7 @@ export const Simulator = () => {
 									active: (currentChannel === channelName),
 								})}
 								onClick={handleChannelClick}
+								title={channelName}
 								type="button"
 								value={channelName}>
 								{channelName}

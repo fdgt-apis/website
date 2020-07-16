@@ -101,13 +101,22 @@ const SimulatorContextProvider = props => {
 		const {
 			params: [channelName],
 		} = parsedMessage
+		const timestampMS = Date.now()
 
 		if (isSelf(parsedMessage)) {
+			const joinMessage = {
+				message: `Joined ${channelName}`,
+				timestamp: moment(timestampMS).format('HH:mm'),
+				timestampMS,
+				type: 'system',
+			}
+
 			setChannels(oldChannels => ({
 				...oldChannels,
-				[channelName]: [],
+				[channelName]: [joinMessage],
 			}))
 			setCurrentChannel(channelName)
+			addEvent('status', joinMessage)
 		}
 	}, [
 		setChannels,

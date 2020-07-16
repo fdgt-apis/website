@@ -92,7 +92,7 @@ const SimulatorChannel = props => {
 					case 'system':
 						return (
 							<li
-								className="message"
+								className="system"
 								key={index}
 								ref={ref}>
 								<time value={timestampMS}>{timestamp}</time>
