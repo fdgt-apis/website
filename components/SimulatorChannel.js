@@ -9,6 +9,15 @@ import PropTypes from 'prop-types'
 
 
 
+// Local imports
+import { SimulatorMessage } from 'components/SimulatorMessage'
+import { SimulatorMessageSubscription } from 'components/SimulatorMessageSubscription'
+import { SimulatorMessageSystem } from 'components/SimulatorMessageSystem'
+
+
+
+
+
 const SimulatorChannel = props => {
 	const {
 		channelName,
@@ -35,74 +44,36 @@ const SimulatorChannel = props => {
 	return (
 		<ol>
 			{events.map((event, index) => {
-				const {
-					details,
-					message,
-					timestamp,
-					timestampMS,
-					type,
-					user,
-				} = event
+				let Component = null
 				let ref = null
 
 				if (index === (events.length - 1)) {
 					ref = newestMessageRef
 				}
 
-				switch (type) {
-					case 'sub':
-						return (
-							<li
-								className="subscription"
-								key={index}
-								ref={ref}>
-								<time value={timestamp}>{timestamp}</time>
-								<p>
-									<strong className="username">{user.name}</strong><br />
-									{(details.plan === 'Prime') && (
-										<>
-											<strong>Subscribed</strong> with <span className="plan-name">Twitch Prime</span>
-										</>
-									)}
-									{(details.plan !== 'Prime') && (
-										<>
-											<strong>Subscribed</strong> at Tier {details.plan / 1000}
-										</>
-									)}
-								</p>
-							</li>
-						)
-
+				switch (event.type) {
 					case 'message':
-						return (
-							<li
-								className="message"
-								key={index}
-								ref={ref}>
-								<time value={timestamp}>{timestamp}</time>
-								<p>
-									<span style={{ color: user.color }}>
-										<strong>{`${user.name}: `}</strong>
-									</span>
-									<span>{message}</span>
-								</p>
-							</li>
-						)
+						Component = SimulatorMessage
+						break
+
+					case 'sub':
+						Component = SimulatorMessageSubscription
+						break
 
 					case 'system':
-						return (
-							<li
-								className="system"
-								key={index}
-								ref={ref}>
-								<time value={timestampMS}>{timestamp}</time>
-								<p>{message}</p>
-							</li>
-						)
+						Component = SimulatorMessageSystem
+						break
 
 					default:
 						return null
 				}
+
+				return (
+					<Component
+						{...event}
+						key={index}
+						ref={ref} />
+				)
 			})}
 		</ol>
 	)
