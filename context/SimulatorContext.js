@@ -13,6 +13,9 @@ import PropTypes from 'prop-types'
 
 
 // Local constants
+const isSelf = parsedMessage => {
+	return parsedMessage.prefix.replace(/^[\w-]+?!([\w-]+?)@[\w-]+?\.tmi\.twitch\.tv/, '$1') === 'fdgt-test'
+}
 const SimulatorContext = React.createContext({
 	isConnecting: false,
 	isConnected: false,
@@ -36,7 +39,9 @@ let socket = null
 const SimulatorContextProvider = props => {
 	const { children } = props
 
-	const [channels, setChannels] = useState({})
+	const [channels, setChannels] = useState({
+		status: [],
+	})
 	const [isConnecting, setIsConnecting] = useState(true)
 	const [isConnected, setIsConnected] = useState(false)
 
@@ -57,14 +62,38 @@ const SimulatorContextProvider = props => {
 		})
 	}, [setChannels])
 
-	const handleJoin = useCallback((channelName, username, self) => {
-		if (self) {
+	const handleSystemMessage = useCallback(parsedMessage => {
+		const {
+			params: [, message],
+		} = parsedMessage
+		const timestampMS = Date.now()
+		addEvent('status', {
+			message: message,
+			timestamp: moment(timestampMS).format('HH:mm'),
+			timestampMS,
+			type: 'system',
+		})
+		setIsConnected(true)
+		setIsConnecting(false)
+	}, [
+		addEvent,
+		setIsConnected,
+		setIsConnecting,
+	])
+
+	const handleJOIN = useCallback(parsedMessage => {
+		const {
+			params: [channelName],
+		} = parsedMessage
+
+		if (isSelf(parsedMessage)) {
 			setChannels(oldChannels => ({
 				...oldChannels,
 				[channelName]: [],
 			}))
 		}
 	}, [setChannels])
+
 	const handlePRIVMSG = useCallback(parsedMessage => {
 		const {
 			params: [
@@ -74,8 +103,7 @@ const SimulatorContextProvider = props => {
 			prefix,
 			tags,
 		} = parsedMessage
-		const self = prefix.replace(/\w+?!(\w+?)@\w+?\.tmi\.twitch\.tv/, '$1') === 'fdgt-test'
-		const timestampMS = self ? undefined : parseInt(tags['tmi-sent-ts'], 10)
+		const timestampMS = isSelf(parsedMessage) ? undefined : parseInt(tags['tmi-sent-ts'], 10)
 
 		addEvent(channelName, {
 			message,
@@ -88,6 +116,7 @@ const SimulatorContextProvider = props => {
 			},
 		})
 	}, [addEvent])
+
 	const handleUSERNOTICE = useCallback(parsedMessage => {
 		const {
 			params: [
@@ -118,9 +147,18 @@ const SimulatorContextProvider = props => {
 		const parsedMessage = parseIRCMessage(data)
 
 		switch (parsedMessage.command) {
+			case '001':
+			case '002':
+			case '003':
+			case '004':
+			case '372':
+			case '375':
 			case '376':
-				setIsConnected(true)
-				setIsConnecting(false)
+				handleSystemMessage(parsedMessage)
+				break
+
+			case 'JOIN':
+				handleJOIN(parsedMessage)
 				break
 
 			case 'PRIVMSG':
@@ -136,10 +174,9 @@ const SimulatorContextProvider = props => {
 				break
 		}
 	}, [
+		handleJOIN,
 		handlePRIVMSG,
 		handleUSERNOTICE,
-		setIsConnected,
-		setIsConnecting,
 	])
 
 	const handleSocketClose = useCallback(() => {
@@ -147,6 +184,15 @@ const SimulatorContextProvider = props => {
 	}, [setIsConnected])
 
 	const handleSocketOpen = useCallback(() => {
+		const timestampMS = Date.now()
+
+		addEvent('status', {
+			message: 'Connected!',
+			timestamp: moment(timestampMS).format('HH:mm'),
+			timestampMS,
+			type: 'system',
+		})
+
 		socket.send('CAP REQ :twitch.tv/tags twitch.tv/commands twitch.tv/membership')
 		socket.send('PASS oauth:definitely-a-token')
 		socket.send('NICK fdgt-test')
@@ -154,7 +200,11 @@ const SimulatorContextProvider = props => {
 
 		setIsConnecting(false)
 		setIsConnected(true)
-	}, [setIsConnected])
+	}, [
+		addEvent,
+		setIsConnected,
+		setIsConnecting,
+	])
 
 	const sendMessage = useCallback((channelName, message) => {
 		const timestampMS = Date.now()
@@ -173,6 +223,15 @@ const SimulatorContextProvider = props => {
 	}, [])
 
 	useEffect(() => {
+		const timestampMS = Date.now()
+
+		addEvent('status', {
+			message: 'Connecting...',
+			timestamp: moment(timestampMS).format('HH:mm'),
+			timestampMS,
+			type: 'system',
+		})
+
 		socket = new WebSocket(process.env.NEXT_PUBLIC_FDGT_WEBSOCKET_URL)
 		socket.onclose = handleSocketClose
 		socket.onmessage = handleSocketMessage

@@ -10,7 +10,10 @@ import PropTypes from 'prop-types'
 
 
 const SimulatorChannel = props => {
-	const { events } = props
+	const {
+		channelName,
+		events,
+	} = props
 	const newestMessageRef = useRef(null)
 
 	useEffect(() => {
@@ -83,6 +86,17 @@ const SimulatorChannel = props => {
 									</span>
 									<span>{message}</span>
 								</p>
+							</li>
+						)
+
+					case 'system':
+						return (
+							<li
+								className="message"
+								key={index}
+								ref={ref}>
+								<time value={timestampMS}>{timestamp}</time>
+								<p>{message}</p>
 							</li>
 						)
 
