@@ -89,6 +89,15 @@
 			}
 		}
 
+		.emote {
+			max-height: 2ex;
+		}
+
+		.message-details {
+			font-size: 0.8em;
+			opacity: 0.5;
+		}
+
 		.subscription {
 			background-color: rgba(white, 0.15);
 			border-left-color: var(--wipe-out);
@@ -99,11 +108,6 @@
 		.system p {
 			opacity: 0.5;
 			font-style: italic;
-		}
-
-		.message-details {
-			font-size: 0.8em;
-			opacity: 0.5;
 		}
 	}
 

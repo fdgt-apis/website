@@ -12,6 +12,13 @@ import PropTypes from 'prop-types'
 
 
 
+// Local imports
+import { useFetch } from 'hooks/useFetch'
+
+
+
+
+
 // Local constants
 const isSelf = parsedMessage => {
 	return parsedMessage.prefix.replace(/^[\w-]+?!([\w-]+?)@[\w-]+?\.tmi\.twitch\.tv/, '$1') === 'fdgt-test'
@@ -19,7 +26,9 @@ const isSelf = parsedMessage => {
 const SimulatorContext = React.createContext({
 	addMessage: () => {},
 	channels: {},
+	cheermotes: {},
 	currentChannel: 'status',
+	emotes: null,
 	handleChannelSelect: () => {},
 	isConnecting: false,
 	isConnected: false,
@@ -47,6 +56,8 @@ const SimulatorContextProvider = props => {
 	const [currentChannel, setCurrentChannel] = useState('status')
 	const [isConnecting, setIsConnecting] = useState(true)
 	const [isConnected, setIsConnected] = useState(false)
+	const [emotes, setEmotes] = useState({})
+	const [cheermotes, setCheermotes] = useState({})
 
 	const joinChannel = useCallback(channelName => socket.send(`JOIN #${channelName.replace(/^#/, '')}`), [])
 	const partChannel = useCallback(channelName => socket.send(`PART #${channelName.replace(/^#/, '')}`), [])
@@ -272,6 +283,26 @@ const SimulatorContextProvider = props => {
 
 	const sendPING = useCallback(() => socket.send('PING'), [])
 
+	const {
+		error: emotesFetchError,
+		pending: emotesFetchIsPending,
+		value: emotesFetchResponse,
+	} = useFetch({
+		headers: {
+			Accept: 'application/vnd.twitchtv.v5+json',
+			'Client-ID': process.env.NEXT_PUBLIC_TWITCH_CLIENT_ID,
+		},
+		url: 'https://api.twitch.tv/kraken/chat/emoticon_images?emotesets=0',
+	}, [])
+
+	const {
+		error: cheermotesFetchError,
+		pending: cheermotesFetchIsPending,
+		value: cheermotesFetchResponse,
+	} = useFetch({
+		url: '/api/cheermotes',
+	}, [])
+
 	useEffect(() => {
 		const timestampMS = Date.now()
 
@@ -290,12 +321,43 @@ const SimulatorContextProvider = props => {
 		return () => socket.close()
 	}, [])
 
+	useEffect(() => {
+		if (emotesFetchResponse) {
+			const emotesData = emotesFetchResponse.emoticon_sets[0]
+			const emoteDictionary = {}
+			emotesData.forEach((emoteDatum) => {
+				emoteDictionary[emoteDatum.code.toLowerCase()] = emoteDatum.id
+			})
+			setEmotes(emoteDictionary)
+		}
+	}, [
+		emotesFetchResponse,
+		setEmotes,
+	])
+
+	useEffect(() => {
+		if (cheermotesFetchResponse) {
+			const cheermoteDictionary = {}
+
+			cheermotesFetchResponse.forEach((cheermoteDatum) => {
+				cheermoteDictionary[cheermoteDatum.prefix.toLowerCase()] = cheermoteDatum.tiers.reverse()
+			})
+
+			setCheermotes(cheermoteDictionary)
+		}
+	}, [
+		cheermotesFetchResponse,
+		setCheermotes,
+	])
+
 	return (
 		<SimulatorContext.Provider
 			value={{
 				addMessage,
 				channels,
+				cheermotes,
 				currentChannel,
+				emotes,
 				handleChannelSelect,
 				isConnecting,
 				isConnected,
