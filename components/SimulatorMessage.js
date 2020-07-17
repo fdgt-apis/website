@@ -49,7 +49,7 @@ const SimulatorMessage = forwardRef((props, ref) => {
 					{message.split(' ').map(word => {
 						const [, cheermoteMatch, cheerAmount] = /^(\w+?)(\d+)$/giu.exec(word) || []
 						const cheermoteTiers = cheermotes?.[cheermoteMatch?.toLowerCase()]
-						const emoteID = emotes[word]
+						const emoteID = emotes[word.toLowerCase()]
 
 						if (cheermoteTiers) {
 							let cheerTier = null
