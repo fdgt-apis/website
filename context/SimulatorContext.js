@@ -149,6 +149,7 @@ const SimulatorContextProvider = props => {
 		const timestampMS = isSelf(parsedMessage) ? undefined : parseInt(tags['tmi-sent-ts'], 10)
 
 		addEvent(channelName, {
+			bits: tags.bits,
 			message,
 			timestamp: moment(timestampMS).format('HH:mm'),
 			timestampMS,
