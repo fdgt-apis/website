@@ -162,6 +162,7 @@ const SimulatorContextProvider = props => {
 		addEvent(channelName, {
 			bits: tags.bits,
 			message,
+			tags,
 			timestamp: moment(timestampMS).format('HH:mm'),
 			timestampMS,
 			type: 'message',
@@ -188,6 +189,7 @@ const SimulatorContextProvider = props => {
 				plan: tags['msg-param-sub-plan'],
 			},
 			message,
+			tags,
 			timestamp: moment(timestampMS).format('HH:mm'),
 			timestampMS,
 			type: tags['msg-id'],
