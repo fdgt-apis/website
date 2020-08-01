@@ -1,6 +1,7 @@
 // Module imports
 import React, {
 	forwardRef,
+	useRef,
 } from 'react'
 import PropTypes from 'prop-types'
 
@@ -8,34 +9,42 @@ import PropTypes from 'prop-types'
 
 
 
+// Local constants
+const dateFormatter = new Intl.DateTimeFormat(undefined, {
+	hour: 'numeric',
+	minute: 'numeric',
+})
+
+
+
+
+
 const SimulatorMessageResubscription = forwardRef((props, ref) => {
 	const {
-		details,
 		message,
 		tags,
-		timestamp,
-		timestampMS,
-		user,
 	} = props
+
+	const timestamp = useRef(dateFormatter.format(new Date(parseInt(tags['tmi-sent-ts'], 10))))
 
 	return (
 		<li
-			className="subscription"
+			className="highlight subscription"
 			ref={ref}>
-			<time value={timestampMS}>{timestamp}</time>
+			<time value={tags['tmi-sent-ts']}>{timestamp.current}</time>
 
 			<p>
-				<strong className="username">{user.name}</strong><br />
+				<strong>{tags['display-name']}</strong><br />
 
-				{(details.plan === 'Prime') && (
+				{(tags['msg-param-sub-plan'] === 'Prime') && (
 					<>
-						<strong>Resubscribed</strong> with <span className="plan-name">Twitch Prime</span>! They've been subscribed for <strong>{tags['msg-param-cumulative-months']}</strong> months!
+						<strong>Resubscribed</strong> with <strong className="accent">Twitch Prime</strong>! They've been subscribed for <strong>{tags['msg-param-cumulative-months']}</strong> months!
 					</>
 				)}
 
-				{(details.plan !== 'Prime') && (
+				{(tags['msg-param-sub-plan'] !== 'Prime') && (
 					<>
-						<strong>Resubscribed</strong> at Tier {details.plan / 1000}! They've been subscribed for <strong>{tags['msg-param-cumulative-months']}</strong> months!
+						<strong>Resubscribed</strong> at <strong className="accent">Tier {tags['msg-param-sub-plan'] / 1000}</strong>! They've been subscribed for <strong>{tags['msg-param-cumulative-months']}</strong> months!
 					</>
 				)}
 			</p>
@@ -48,11 +57,8 @@ SimulatorMessageResubscription.defaultProps = {
 }
 
 SimulatorMessageResubscription.propTypes = {
-	details: PropTypes.object.isRequired,
 	message: PropTypes.string,
-	timestamp: PropTypes.string.isRequired,
-	timestampMS: PropTypes.number.isRequired,
-	user: PropTypes.object.isRequired,
+	tags: PropTypes.object.isRequired,
 }
 
 

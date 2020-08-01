@@ -20,29 +20,40 @@ import { SimulatorMessageSystem } from 'components/SimulatorMessageSystem'
 
 
 
+// Local constants
+const dateFormatter = new Intl.DateTimeFormat(undefined, {
+	hour: 'numeric',
+	minute: 'numeric',
+})
+
+
+
+
+
 const SimulatorMessage = forwardRef((props, ref) => {
 	const {
-		bits = 0,
 		message,
-		timestamp,
-		timestampMS,
-		user,
+		tags,
 	} = props
-	const formattedBits = useRef(Intl.NumberFormat().format(bits))
+	const formattedBits = useRef(Intl.NumberFormat().format(parseInt(tags.bits || 0, 10)))
+	const timestamp = useRef(dateFormatter.format(new Date(parseInt(tags['tmi-sent-ts'] || Date.now(), 10))))
 	const {
 		cheermotes,
 		emotes,
 	} = useContext(SimulatorContext)
 
+	const userColor = tags.color || 'var(--dragon)'
+	const userDisplayName = tags['display-name'] || 'fdgt-user'
+
 	return (
 		<li
 			className="message"
 			ref={ref}>
-			<time value={timestampMS}>{timestamp}</time>
+			<time value={tags['tmi-sent-ts']}>{timestamp.current}</time>
 
 			<p>
-				<span style={{ color: user.color }}>
-					<strong>{`${user.name}: `}</strong>
+				<span style={{ color: userColor }}>
+					<strong>{`${userDisplayName}: `}</strong>
 				</span>
 
 				<span>
@@ -88,7 +99,7 @@ const SimulatorMessage = forwardRef((props, ref) => {
 					})}
 				</span>
 
-				{Boolean(bits) && (
+				{(parseInt(tags.bits, 10) > 0) && (
 					<div className="message-details">
 						This message includes {formattedBits.current} bits
 					</div>
@@ -99,15 +110,12 @@ const SimulatorMessage = forwardRef((props, ref) => {
 })
 
 SimulatorMessage.defaultProps = {
-	bits: null,
+	tags: {},
 }
 
 SimulatorMessage.propTypes = {
-	bits: PropTypes.string,
 	message: PropTypes.string.isRequired,
-	timestamp: PropTypes.string.isRequired,
-	timestampMS: PropTypes.number.isRequired,
-	user: PropTypes.object.isRequired,
+	tags: PropTypes.object,
 }
 
 

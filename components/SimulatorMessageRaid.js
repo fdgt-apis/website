@@ -38,16 +38,8 @@ const SimulatorMessageRaid = forwardRef((props, ref) => {
 	)
 })
 
-SimulatorMessageRaid.defaultProps = {
-	message: '',
-}
-
 SimulatorMessageRaid.propTypes = {
-	details: PropTypes.object.isRequired,
-	message: PropTypes.string,
-	timestamp: PropTypes.string.isRequired,
-	timestampMS: PropTypes.number.isRequired,
-	user: PropTypes.object.isRequired,
+	tags: PropTypes.object.isRequired,
 }
 
 
