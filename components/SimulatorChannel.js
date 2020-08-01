@@ -11,6 +11,7 @@ import PropTypes from 'prop-types'
 
 // Local imports
 import { SimulatorMessage } from 'components/SimulatorMessage'
+import { SimulatorMessageRaid } from 'components/SimulatorMessageRaid'
 import { SimulatorMessageResubscription } from 'components/SimulatorMessageResubscription'
 import { SimulatorMessageSubscription } from 'components/SimulatorMessageSubscription'
 import { SimulatorMessageSystem } from 'components/SimulatorMessageSystem'
@@ -55,6 +56,10 @@ const SimulatorChannel = props => {
 				switch (event.type) {
 					case 'message':
 						Component = SimulatorMessage
+						break
+
+					case 'raid':
+						Component = SimulatorMessageRaid
 						break
 
 					case 'resub':
