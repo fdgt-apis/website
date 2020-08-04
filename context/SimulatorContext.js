@@ -20,6 +20,14 @@ import { useFetch } from 'hooks/useFetch'
 
 
 // Local constants
+const createChannelObject = options => ({
+	events: options.events || [],
+	state: options.state || {
+		emoteOnly: false,
+		slowMode: false,
+		subs: false,
+	},
+})
 const isSelf = parsedMessage => {
 	return parsedMessage.prefix.replace(/^[\w-]+?!([\w-]+?)@[\w-]+?\.tmi\.twitch\.tv/, '$1') === 'fdgt-test'
 }
@@ -52,7 +60,11 @@ let socket = null
 const SimulatorContextProvider = props => {
 	const { children } = props
 
-	const [channels, setChannels] = useState({ status: [] })
+	const [channels, setChannels] = useState({
+		status: {
+			events: [],
+		},
+	})
 	const [currentChannel, setCurrentChannel] = useState('status')
 	const [isConnecting, setIsConnecting] = useState(true)
 	const [isConnected, setIsConnected] = useState(false)
@@ -64,14 +76,17 @@ const SimulatorContextProvider = props => {
 
 	const addEvent = useCallback((channelName, event) => {
 		setChannels(oldChannels => {
-			const events = oldChannels[channelName] || []
+			const oldChannel = (oldChannels[channelName] || createChannelObject())
 
 			return {
 				...oldChannels,
-				[channelName]: [
-					...events,
-					event,
-				],
+				[channelName]: {
+					...oldChannel,
+					events: [
+						...oldChannel.events,
+						event,
+					],
+				},
 			}
 		})
 	}, [setChannels])
@@ -88,6 +103,51 @@ const SimulatorContextProvider = props => {
 	}, [addEvent])
 
 	const handleChannelSelect = useCallback(channelName => setCurrentChannel(channelName), [setCurrentChannel])
+
+	const handleChannelStateChange = useCallback(options => {
+		const {
+			channelName,
+			isEnabled,
+			key,
+			message,
+		} = options
+		const timestampMS = Date.now()
+		const stateChangeMessage = {
+			message: message.replace(/This room/, channelName),
+			timestamp: moment(timestampMS).format('HH:mm'),
+			timestampMS,
+			type: 'system',
+		}
+
+		setChannels(oldChannels => {
+			const oldChannel = (oldChannels[channelName] || createChannelObject())
+			const statusChannel = oldChannels['status']
+			const state = oldChannel.state
+
+			return {
+				...oldChannels,
+				status: {
+					...statusChannel,
+					events: [
+						...statusChannel.events,
+						stateChangeMessage,
+					],
+				},
+				[channelName]: {
+					events: [
+						...oldChannel.events,
+						stateChangeMessage,
+					],
+					state: {
+						...oldChannel.state,
+						[key]: isEnabled,
+					},
+				},
+			}
+		})
+	}, [
+		setChannels,
+	])
 
 	const handleSystemMessage = useCallback(parsedMessage => {
 		const {
@@ -124,7 +184,9 @@ const SimulatorContextProvider = props => {
 
 			setChannels(oldChannels => ({
 				...oldChannels,
-				[channelName]: [joinMessage],
+				[channelName]: createChannelObject({
+					events: [joinMessage],
+				})
 			}))
 			setCurrentChannel(channelName)
 			addEvent('status', joinMessage)
@@ -147,6 +209,34 @@ const SimulatorContextProvider = props => {
 			})
 		}
 	}, [setChannels])
+
+	const handleNOTICE = useCallback(parsedMessage => {
+		const {
+			params: [
+				channelName,
+				message,
+			],
+			tags,
+		} = parsedMessage
+
+		let [
+			fullMatch,
+			key,
+			isEnabled,
+		] = (/^(emote_only|slow_mode|subs)_(on|off)$/.exec(tags['msg-id']) || [])
+
+		if (fullMatch) {
+			key = key.replace(/_(\w)/, (fullMatch, character) => character.toUpperCase())
+			isEnabled = (isEnabled === 'on') ? true : false
+
+			handleChannelStateChange({
+				channelName,
+				isEnabled,
+				key,
+				message,
+			})
+		}
+	}, [handleChannelStateChange])
 
 	const handlePRIVMSG = useCallback(parsedMessage => {
 		const {
@@ -218,6 +308,10 @@ const SimulatorContextProvider = props => {
 				handleJOIN(parsedMessage)
 				break
 
+			case 'NOTICE':
+				handleNOTICE(parsedMessage)
+				break
+
 			case 'PART':
 				handlePART(parsedMessage)
 				break
@@ -236,6 +330,7 @@ const SimulatorContextProvider = props => {
 		}
 	}, [
 		handleJOIN,
+		handleNOTICE,
 		handlePRIVMSG,
 		handleUSERNOTICE,
 	])

@@ -36,7 +36,7 @@ export const Simulator = () => {
   const spring = useSpring({
     from: {
       height: '0vh',
-      width: '10rem',
+      width: '10vw',
     },
     to: async next => {
 			if (isOpen) {
@@ -44,7 +44,7 @@ export const Simulator = () => {
 				await next({ height: '40vh' })
 			} else {
 				await next({ height: '0vh' })
-				await next({ width: '10rem' })
+				await next({ width: '10vw' })
 			}
 		},
   })
@@ -104,12 +104,9 @@ export const Simulator = () => {
 					))}
 				</ul>
 
-				<div className="channel">
-					<SimulatorChannel
-						channelName={currentChannel}
-						events={channels[currentChannel]}
-						key={currentChannel} />
-				</div>
+				<SimulatorChannel
+					{...channels[currentChannel]}
+					channelName={currentChannel} />
 
 				<SimulatorForm currentChannel={currentChannel} />
 			</animated.div>

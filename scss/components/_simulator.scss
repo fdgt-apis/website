@@ -64,12 +64,30 @@
 	.channel {
 		align-content: stretch;
 		background-color: var(--black-ops);
+		border-top-color: hsla(var(--smoke-h), var(--smoke-s), var(--smoke-l), 0.3);
+		border-top-style: solid;
+		border-top-width: 0.1rem;
 		color: var(--white);
 		flex-grow: 1;
 		grid-area: channel;
 		overflow: auto;
+		position: relative;
 
-		ol {
+		aside {
+			background-color: var(--nights);
+			font-size: 0.5em;
+			left: 0;
+			position: sticky;
+			right: 0;
+			top: 0;
+			z-index: 1;
+
+			ol {
+				display: flex;
+			}
+		}
+
+		.messages {
 			display: flex;
 			flex-direction: column;
 			flex-grow: 1;

@@ -3,6 +3,7 @@ import React, {
 	useEffect,
 	useRef,
 } from 'react'
+import classnames from 'classnames'
 import PropTypes from 'prop-types'
 
 
@@ -24,6 +25,7 @@ const SimulatorChannel = props => {
 	const {
 		channelName,
 		events,
+		state,
 	} = props
 	const newestMessageRef = useRef(null)
 
@@ -44,57 +46,87 @@ const SimulatorChannel = props => {
 	}, [events])
 
 	return (
-		<ol>
-			{events.map((event, index) => {
-				let Component = null
-				let ref = null
+		<div className="channel">
+			{Boolean(state) && (
+				<aside>
+					<ol className="inline">
+						<li>
+							<strong>Emote only:</strong>
+							<span className={classnames({ enabled: state.emoteOnly })}>
+								{state.emoteOnly ? 'on' : 'off'}
+							</span>
+						</li>
 
-				if (index === (events.length - 1)) {
-					ref = newestMessageRef
-				}
+						<li>
+							<strong>Subs only:</strong>
+							<span className={classnames({ enabled: state.subs })}>
+								{state.subs ? 'on' : 'off'}
+							</span>
+						</li>
 
-				switch (event.type) {
-					case 'message':
-						Component = SimulatorMessage
-						break
+						<li>
+							<strong>Slow mode:</strong>
+							<span className={classnames({ enabled: state.slowMode })}>
+								{state.slowMode ? 'on' : 'off'}
+							</span>
+						</li>
+					</ol>
+				</aside>
+			)}
 
-					case 'raid':
-						Component = SimulatorMessageRaid
-						break
+			<ol className="messages">
+				{events.map((event, index) => {
+					let Component = null
+					let ref = null
 
-					case 'resub':
-						Component = SimulatorMessageResubscription
-						break
+					if (index === (events.length - 1)) {
+						ref = newestMessageRef
+					}
 
-					case 'sub':
-						Component = SimulatorMessageSubscription
-						break
+					switch (event.type) {
+						case 'message':
+							Component = SimulatorMessage
+							break
 
-					case 'system':
-						Component = SimulatorMessageSystem
-						break
+						case 'raid':
+							Component = SimulatorMessageRaid
+							break
 
-					default:
-						return null
-				}
+						case 'resub':
+							Component = SimulatorMessageResubscription
+							break
 
-				return (
-					<Component
-						{...event}
-						key={index}
-						ref={ref} />
-				)
-			})}
-		</ol>
+						case 'sub':
+							Component = SimulatorMessageSubscription
+							break
+
+						case 'system':
+							Component = SimulatorMessageSystem
+							break
+
+						default:
+							return null
+					}
+
+					return (
+						<Component
+							{...event}
+							key={index}
+							ref={ref} />
+					)
+				})}
+			</ol>
+		</div>
 	)
 }
 
 SimulatorChannel.defaultProps = {
-	events: [],
+	state: null,
 }
 
 SimulatorChannel.propTypes = {
-	events: PropTypes.array,
+	events: PropTypes.array.isRequired,
+	state: PropTypes.object,
 }
 
 
