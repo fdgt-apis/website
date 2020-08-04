@@ -14,6 +14,7 @@ import PropTypes from 'prop-types'
 import { SimulatorMessage } from 'components/SimulatorMessage'
 import { SimulatorMessageExtendSubscription } from 'components/SimulatorMessageExtendSubscription'
 import { SimulatorMessageGiftPaidUpgrade } from 'components/SimulatorMessageGiftPaidUpgrade'
+import { SimulatorMessagePrimePaidUpgrade } from 'components/SimulatorMessagePrimePaidUpgrade'
 import { SimulatorMessageRaid } from 'components/SimulatorMessageRaid'
 import { SimulatorMessageResubscription } from 'components/SimulatorMessageResubscription'
 import { SimulatorMessageSubscription } from 'components/SimulatorMessageSubscription'
@@ -96,6 +97,10 @@ const SimulatorChannel = props => {
 
 						case 'message':
 							Component = SimulatorMessage
+							break
+
+						case 'primepaidupgrade':
+							Component = SimulatorMessagePrimePaidUpgrade
 							break
 
 						case 'raid':
