@@ -13,6 +13,7 @@ import PropTypes from 'prop-types'
 // Local imports
 import { SimulatorMessage } from 'components/SimulatorMessage'
 import { SimulatorMessageExtendSubscription } from 'components/SimulatorMessageExtendSubscription'
+import { SimulatorMessageGiftPaidUpgrade } from 'components/SimulatorMessageGiftPaidUpgrade'
 import { SimulatorMessageRaid } from 'components/SimulatorMessageRaid'
 import { SimulatorMessageResubscription } from 'components/SimulatorMessageResubscription'
 import { SimulatorMessageSubscription } from 'components/SimulatorMessageSubscription'
@@ -87,6 +88,10 @@ const SimulatorChannel = props => {
 					switch (event.type) {
 						case 'extendsub':
 							Component = SimulatorMessageExtendSubscription
+							break
+
+						case 'giftpaidupgrade':
+							Component = SimulatorMessageGiftPaidUpgrade
 							break
 
 						case 'message':
