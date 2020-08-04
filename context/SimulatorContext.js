@@ -24,7 +24,7 @@ const createChannelObject = options => ({
 	events: options.events || [],
 	state: options.state || {
 		emoteOnly: false,
-		slowMode: false,
+		slow: false,
 		subs: false,
 	},
 })
@@ -223,7 +223,7 @@ const SimulatorContextProvider = props => {
 			fullMatch,
 			key,
 			isEnabled,
-		] = (/^(emote_only|slow_mode|subs)_(on|off)$/.exec(tags['msg-id']) || [])
+		] = (/^(emote_only|slow|subs)_(on|off)$/.exec(tags['msg-id']) || [])
 
 		if (fullMatch) {
 			key = key.replace(/_(\w)/, (fullMatch, character) => character.toUpperCase())

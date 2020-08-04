@@ -66,8 +66,8 @@ const SimulatorChannel = props => {
 
 						<li>
 							<strong>Slow mode:</strong>
-							<span className={classnames({ enabled: state.slowMode })}>
-								{' '}{state.slowMode ? 'on' : 'off'}
+							<span className={classnames({ enabled: state.slow })}>
+								{' '}{state.slow ? 'on' : 'off'}
 							</span>
 						</li>
 					</ol>
