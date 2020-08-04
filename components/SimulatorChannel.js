@@ -17,6 +17,7 @@ import { SimulatorMessageGiftPaidUpgrade } from 'components/SimulatorMessageGift
 import { SimulatorMessagePrimePaidUpgrade } from 'components/SimulatorMessagePrimePaidUpgrade'
 import { SimulatorMessageRaid } from 'components/SimulatorMessageRaid'
 import { SimulatorMessageResubscription } from 'components/SimulatorMessageResubscription'
+import { SimulatorMessageSubGift } from 'components/SimulatorMessageSubGift'
 import { SimulatorMessageSubscription } from 'components/SimulatorMessageSubscription'
 import { SimulatorMessageSystem } from 'components/SimulatorMessageSystem'
 
@@ -113,6 +114,10 @@ const SimulatorChannel = props => {
 
 						case 'sub':
 							Component = SimulatorMessageSubscription
+							break
+
+						case 'subgift':
+							Component = SimulatorMessageSubGift
 							break
 
 						case 'system':
