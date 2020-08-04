@@ -30,10 +30,12 @@ const SimulatorMessageRaid = forwardRef((props, ref) => {
 			ref={ref}>
 			<time value={tags['tmi-sent-ts']}>{timestamp.current}</time>
 
-			<p>
-				<strong>{tags['msg-param-displayName']}</strong><br />
-				<strong>Raided</strong> with <strong className="accent">{tags['msg-param-viewerCount']}</strong> viewers!
-			</p>
+			<div className="body">
+				<p>
+					<strong>{tags['msg-param-displayName']}</strong><br />
+					<strong>Raided</strong> with <strong className="accent">{tags['msg-param-viewerCount']}</strong> viewers!
+				</p>
+			</div>
 		</li>
 	)
 })

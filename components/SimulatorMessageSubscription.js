@@ -29,25 +29,27 @@ const SimulatorMessageSubscription = forwardRef((props, ref) => {
 
 	return (
 		<li
-			className="highlight message subscription"
+			className="highlight message sub"
 			ref={ref}>
 			<time value={tags['tmi-sent-ts']}>{timestamp.current}</time>
 
-			<p>
-				<strong>{tags['display-name']}</strong><br />
+			<div className="body">
+				<p>
+					<strong>{tags['display-name']}</strong><br />
 
-				{(tags['msg-param-sub-plan'] === 'Prime') && (
-					<>
-						<strong>Subscribed</strong> with <span className="accent">Twitch Prime</span>
-					</>
-				)}
+					{(tags['msg-param-sub-plan'] === 'Prime') && (
+						<>
+							<strong>Subscribed</strong> with <span className="accent">Twitch Prime</span>
+						</>
+					)}
 
-				{(tags['msg-param-sub-plan'] !== 'Prime') && (
-					<>
-						<strong>Subscribed</strong> at <strong className="accent">Tier {tags['msg-param-sub-plan'] / 1000}</strong>
-					</>
-				)}
-			</p>
+					{(tags['msg-param-sub-plan'] !== 'Prime') && (
+						<>
+							<strong>Subscribed</strong> at <strong className="accent">Tier {tags['msg-param-sub-plan'] / 1000}</strong>
+						</>
+					)}
+				</p>
+			</div>
 		</li>
 	)
 })

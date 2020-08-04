@@ -33,11 +33,13 @@ const SimulatorMessageGiftPaidUpgrade = forwardRef((props, ref) => {
 			ref={ref}>
 			<time value={tags['tmi-sent-ts']}>{timestamp.current}</time>
 
-			<p>
-				<strong>{tags['display-name']}</strong><br />
+			<div className="body">
+				<p>
+					<strong>{tags['display-name']}</strong><br />
 
-				Is continuing the Gift Sub they got from <span className="accent">{tags['msg-param-sender-name']}</span>
-			</p>
+					Is continuing the Gift Sub they got from <span className="accent">{tags['msg-param-sender-name']}</span>
+				</p>
+			</div>
 		</li>
 	)
 })

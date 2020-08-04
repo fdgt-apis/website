@@ -34,15 +34,17 @@ const SimulatorMessageExtendSubscription = forwardRef((props, ref) => {
 
 	return (
 		<li
-			className="highlight message extend-subscription"
+			className="highlight message extendsub"
 			ref={ref}>
 			<time value={tags['tmi-sent-ts']}>{timestamp.current}</time>
 
-			<p>
-				<strong>{tags['display-name']}</strong><br />
+			<div className="body">
+				<p>
+					<strong>{tags['display-name']}</strong><br />
 
-				Extended their subscription through <span className="accent">{extendedToMonthString}</span>!
-			</p>
+					Extended their subscription through <span className="accent">{extendedToMonthString}</span>!
+				</p>
+			</div>
 		</li>
 	)
 })

@@ -33,13 +33,15 @@ const SimulatorMessageSubMysteryGift = forwardRef((props, ref) => {
 			ref={ref}>
 			<time value={tags['tmi-sent-ts']}>{timestamp.current}</time>
 
-			<p>
-				<strong>{tags['display-name']}</strong><br />
+			<div className="body">
+				<p>
+					<strong>{tags['display-name']}</strong><br />
 
-				Is gifting <span className="accent">{tags['msg-param-mass-gift-count']} Tier {tags['msg-param-sub-plan'] / 1000} Subs</span> to the community!<br />
+					Is gifting <span className="accent">{tags['msg-param-mass-gift-count']} Tier {tags['msg-param-sub-plan'] / 1000} Subs</span> to the community!<br />
 
-				They've gifted a total of <span className="accent">{tags['msg-param-sender-count']}</span> Gift Subs in the channel!
-			</p>
+					They've gifted a total of <span className="accent">{tags['msg-param-sender-count']}</span> Gift Subs in the channel!
+				</p>
+			</div>
 		</li>
 	)
 })

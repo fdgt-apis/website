@@ -33,13 +33,15 @@ const SimulatorMessageSubGift = forwardRef((props, ref) => {
 			ref={ref}>
 			<time value={tags['tmi-sent-ts']}>{timestamp.current}</time>
 
-			<p>
-				<strong>{tags['display-name']}</strong><br />
+			<div className="body">
+				<p>
+					<strong>{tags['display-name']}</strong><br />
 
-				Gifted a <span className="accent">Tier {tags['msg-param-sub-plan'] / 1000}</span> sub to <span className="accent">{tags['msg-param-recipient-display-name']}</span>!<br />
+					Gifted a <span className="accent">Tier {tags['msg-param-sub-plan'] / 1000}</span> sub to <span className="accent">{tags['msg-param-recipient-display-name']}</span>!<br />
 
-				They have given <span className="accent">{tags['msg-param-sender-count']}</span> gift sub{tags['msg-param-sender-count'] > 1 ? 's' : ''} in the channel!
-			</p>
+					They have given <span className="accent">{tags['msg-param-sender-count']}</span> gift sub{tags['msg-param-sender-count'] > 1 ? 's' : ''} in the channel!
+				</p>
+			</div>
 		</li>
 	)
 })

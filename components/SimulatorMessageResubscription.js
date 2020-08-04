@@ -29,25 +29,27 @@ const SimulatorMessageResubscription = forwardRef((props, ref) => {
 
 	return (
 		<li
-			className="highlight message subscription"
+			className="highlight message resub"
 			ref={ref}>
 			<time value={tags['tmi-sent-ts']}>{timestamp.current}</time>
 
-			<p>
-				<strong>{tags['display-name']}</strong><br />
+			<div className="body">
+				<p>
+					<strong>{tags['display-name']}</strong><br />
 
-				{(tags['msg-param-sub-plan'] === 'Prime') && (
-					<>
-						<strong>Resubscribed</strong> with <strong className="accent">Twitch Prime</strong>! They've been subscribed for <strong>{tags['msg-param-cumulative-months']}</strong> months!
-					</>
-				)}
+					{(tags['msg-param-sub-plan'] === 'Prime') && (
+						<>
+							<strong>Resubscribed</strong> with <strong className="accent">Twitch Prime</strong>! They've been subscribed for <strong>{tags['msg-param-cumulative-months']}</strong> months!
+						</>
+					)}
 
-				{(tags['msg-param-sub-plan'] !== 'Prime') && (
-					<>
-						<strong>Resubscribed</strong> at <strong className="accent">Tier {tags['msg-param-sub-plan'] / 1000}</strong>! They've been subscribed for <strong>{tags['msg-param-cumulative-months']}</strong> months!
-					</>
-				)}
-			</p>
+					{(tags['msg-param-sub-plan'] !== 'Prime') && (
+						<>
+							<strong>Resubscribed</strong> at <strong className="accent">Tier {tags['msg-param-sub-plan'] / 1000}</strong>! They've been subscribed for <strong>{tags['msg-param-cumulative-months']}</strong> months!
+						</>
+					)}
+				</p>
+			</div>
 		</li>
 	)
 })
