@@ -13,7 +13,7 @@ const {
 
 export const handler = async (request, response) => {
 	let accessToken = null
-	let cheermotes = null
+	let cheermotesResponse = null
 
 	try {
 		const response = await fetch(`https://id.twitch.tv/oauth2/token?client_id=${TWITCH_CLIENT_ID}&client_secret=${TWITCH_CLIENT_SECRET}&grant_type=client_credentials`, {
@@ -22,31 +22,21 @@ export const handler = async (request, response) => {
 
 		accessToken = response.access_token
 	} catch (error) {
-		return response.status(httpStatus.INTERNAL_SERVER_ERROR).json({
-			errors: [
-				'Failed to get an access token.',
-				error,
-			],
-		})
+		return response.status(httpStatus.INTERNAL_SERVER_ERROR).end()
 	}
 
 	try {
-		cheermotes = await fetch('https://api.twitch.tv/helix/bits/cheermotes', {
+		cheermotesResponse = await fetch('https://api.twitch.tv/helix/bits/cheermotes', {
 			headers: {
 				'Client-ID': TWITCH_CLIENT_ID,
 				'Authorization': `Bearer ${accessToken}`,
 			},
 		}).then(response => response.json())
 	} catch (error) {
-		return response.status(httpStatus.INTERNAL_SERVER_ERROR).json({
-			errors: [
-				'Failed to get cheermotes.',
-				error,
-			],
-		})
+		return response.status(httpStatus.INTERNAL_SERVER_ERROR).end()
 	}
 
-  response.status(httpStatus.OK).json(cheermotes.data)
+  response.status(httpStatus.OK).json(cheermotesResponse.data)
 }
 
 
