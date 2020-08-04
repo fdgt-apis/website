@@ -26,7 +26,7 @@ const SimulatorMessageRaid = forwardRef((props, ref) => {
 
 	return (
 		<li
-			className="highlight raid"
+			className="highlight message raid"
 			ref={ref}>
 			<time value={tags['tmi-sent-ts']}>{timestamp.current}</time>
 

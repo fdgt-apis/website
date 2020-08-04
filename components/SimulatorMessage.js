@@ -1,6 +1,7 @@
 // Module imports
 import React, {
 	forwardRef,
+	Fragment,
 	useContext,
 	useEffect,
 	useRef,
@@ -51,60 +52,62 @@ const SimulatorMessage = forwardRef((props, ref) => {
 			ref={ref}>
 			<time value={tags['tmi-sent-ts']}>{timestamp.current}</time>
 
-			<p>
-				<span style={{ color: userColor }}>
-					<strong>{`${userDisplayName}: `}</strong>
-				</span>
+			<div className="body">
+				<p>
+					<span style={{ color: userColor }}>
+						<strong>{`${userDisplayName}: `}</strong>
+					</span>
 
-				<span>
-					{message.split(' ').map(word => {
-						const [, cheermoteMatch, cheerAmount] = /^(\w+?)(\d+)$/giu.exec(word) || []
-						const cheermoteTiers = cheermotes?.[cheermoteMatch?.toLowerCase()]
-						const emoteID = emotes[word.toLowerCase()]
+					<span>
+						{message.split(' ').map((word, wIndex) => {
+							const [, cheermoteMatch, cheerAmount] = /^(\w+?)(\d+)$/giu.exec(word) || []
+							const cheermoteTiers = cheermotes?.[cheermoteMatch?.toLowerCase()]
+							const emoteID = emotes[word.toLowerCase()]
 
-						if (cheermoteTiers) {
-							let cheerTier = null
+							if (cheermoteTiers) {
+								let cheerTier = null
 
-							cheermoteTiers.some(cheermoteTier => {
-								if (cheermoteTier.min_bits <= cheerAmount) {
-									cheerTier = cheermoteTier
-									return true
-								}
+								cheermoteTiers.some(cheermoteTier => {
+									if (cheermoteTier.min_bits <= cheerAmount) {
+										cheerTier = cheermoteTier
+										return true
+									}
 
-								return false
-							})
+									return false
+								})
 
-							return (
-								<>
-									<img
-										className="emote"
-										src={cheerTier.images.dark.animated[4]} />
-									{' '}
-								</>
-							)
-						}
+								return (
+									<Fragment key={wIndex}>
+										<img
+											className="emote"
+											src={cheerTier.images.dark.animated[4]} />
+										{' '}
+									</Fragment>
+								)
+							}
 
-						if (emoteID) {
-							return (
-								<>
-									<img
-										className="emote"
-										src={`https://static-cdn.jtvnw.net/emoticons/v1/${emoteID}/4.0`} />
-									{' '}
-								</>
-							)
-						}
+							if (emoteID) {
+								return (
+									<Fragment key={wIndex}>
+										<img
+											className="emote"
+											src={`https://static-cdn.jtvnw.net/emoticons/v1/${emoteID}/4.0`} />
+										{' '}
+									</Fragment>
+								)
+							}
 
-						return `${word} `
-					})}
-				</span>
+							return `${word} `
+						})}
+					</span>
+				</p>
 
 				{(parseInt(tags.bits, 10) > 0) && (
 					<div className="message-details">
 						This message includes {formattedBits.current} bits
 					</div>
 				)}
-			</p>
+			</div>
 		</li>
 	)
 })

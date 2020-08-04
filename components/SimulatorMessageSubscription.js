@@ -29,7 +29,7 @@ const SimulatorMessageSubscription = forwardRef((props, ref) => {
 
 	return (
 		<li
-			className="highlight subscription"
+			className="highlight message subscription"
 			ref={ref}>
 			<time value={tags['tmi-sent-ts']}>{timestamp.current}</time>
 

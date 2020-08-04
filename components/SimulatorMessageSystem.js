@@ -27,7 +27,7 @@ const SimulatorMessageSystem = forwardRef((props, ref) => {
 
 	return (
 		<li
-			className="system"
+			className="message system"
 			ref={ref}>
 			<time value={timestampMS.current}>{timestamp.current}</time>
 

@@ -53,21 +53,21 @@ const SimulatorChannel = props => {
 						<li>
 							<strong>Emote only:</strong>
 							<span className={classnames({ enabled: state.emoteOnly })}>
-								{state.emoteOnly ? 'on' : 'off'}
+								{' '}{state.emoteOnly ? 'on' : 'off'}
 							</span>
 						</li>
 
 						<li>
 							<strong>Subs only:</strong>
 							<span className={classnames({ enabled: state.subs })}>
-								{state.subs ? 'on' : 'off'}
+								{' '}{state.subs ? 'on' : 'off'}
 							</span>
 						</li>
 
 						<li>
 							<strong>Slow mode:</strong>
 							<span className={classnames({ enabled: state.slowMode })}>
-								{state.slowMode ? 'on' : 'off'}
+								{' '}{state.slowMode ? 'on' : 'off'}
 							</span>
 						</li>
 					</ol>

@@ -75,7 +75,7 @@
 
 		aside {
 			background-color: var(--nights);
-			font-size: 0.5em;
+			font-size: 0.7em;
 			left: 0;
 			position: sticky;
 			right: 0;
@@ -84,6 +84,10 @@
 
 			ol {
 				display: flex;
+			}
+
+			li {
+				padding: 0.5rem 1rem;
 			}
 		}
 
@@ -96,7 +100,7 @@
 			min-height: 100%;
 		}
 
-		li {
+		.message {
 			display: grid;
 			grid-gap: 1rem;
 			grid-template-columns: auto 1fr;
