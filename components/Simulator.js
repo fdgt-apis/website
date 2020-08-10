@@ -34,19 +34,11 @@ export const Simulator = () => {
 	} = useContext(SimulatorContext)
   const [resizeListener, { height }] = useResizeAware()
   const spring = useSpring({
-    from: {
-      height: '0vh',
-      width: '10vw',
-    },
-    to: async next => {
-			if (isOpen) {
-				await next({ width: '40vw' })
-				await next({ height: '40vh' })
-			} else {
-				await next({ height: '0vh' })
-				await next({ width: '10vw' })
-			}
+		config: {
+			friction: 25,
+			tension: 500,
 		},
+		height: isOpen ? '40vh' : '0vh',
   })
 
 	const handleClose = useCallback(() => setIsOpen(false), [setIsOpen])
