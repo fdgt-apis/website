@@ -39,7 +39,7 @@ By contributing to this repository, you are expected to know and follow the rule
 <!-- 1. Install Yarn v2 (if you haven't already). Instructions can be found [here][yarn2install]! -->
 1. Fork and clone the repo
 1. Run `yarn install` to install Node dependencies
-1. Run `yarn start` to start up the dev server
+1. Run `yarn dev` to start up the dev server
 1. Create a branch for your PR
 
 **NOTE:** Use of NPM is **NOT** supported by this repository.
