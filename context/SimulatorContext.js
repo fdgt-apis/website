@@ -21,8 +21,8 @@ import { useFetch } from 'hooks/useFetch'
 
 // Local constants
 const createChannelObject = options => ({
-	events: options.events || [],
-	state: options.state || {
+	events: options?.events || [],
+	state: options?.state || {
 		emoteOnly: false,
 		slow: false,
 		subs: false,
@@ -65,11 +65,11 @@ const SimulatorContextProvider = props => {
 			events: [],
 		},
 	})
+	const [cheermotes, setCheermotes] = useState({})
 	const [currentChannel, setCurrentChannel] = useState('status')
+	const [emotes, setEmotes] = useState({})
 	const [isConnecting, setIsConnecting] = useState(true)
 	const [isConnected, setIsConnected] = useState(false)
-	const [emotes, setEmotes] = useState({})
-	const [cheermotes, setCheermotes] = useState({})
 
 	const joinChannel = useCallback(channelName => socket.send(`JOIN #${channelName.replace(/^#/, '')}`), [])
 	const partChannel = useCallback(channelName => socket.send(`PART #${channelName.replace(/^#/, '')}`), [])
