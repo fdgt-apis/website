@@ -44,6 +44,8 @@ export const SimulatorForm = props => {
 	const inputRef = useRef(null)
 	const [autocompleteActiveIndex, setAutocompleteActiveIndex] = useState(0)
 	const [autocompleteList, setAutocompleteList] = useState([])
+	const [history, setHistory] = useState([''])
+	const [historyIndex, setHistoryIndex] = useState(0)
 	const [message, setMessage] = useState('')
 	const retrieveCommandParams = useRef({})
 	const {
@@ -107,34 +109,58 @@ export const SimulatorForm = props => {
 
 	const handleDownArrowKey = useCallback(event => {
 		event.preventDefault()
+		if (!message && !autocompleteList.length) {
+			let newHistoryIndex = historyIndex - 1
 
-		let newActiveIndex = autocompleteActiveIndex + 1
+			if (newHistoryIndex < 0) {
+				newHistoryIndex = history.length - 1
+			}
 
-		if (newActiveIndex > autocompleteList.length - 1) {
-			newActiveIndex = 0
+			setHistoryIndex(newHistoryIndex)
+		} else {
+			let newActiveIndex = autocompleteActiveIndex + 1
+
+			if (newActiveIndex > autocompleteList.length - 1) {
+				newActiveIndex = 0
+			}
+
+			setAutocompleteActiveIndex(newActiveIndex)
 		}
-
-		return setAutocompleteActiveIndex(newActiveIndex)
 	}, [
 		autocompleteActiveIndex,
 		autocompleteList,
+		historyIndex,
 		setAutocompleteActiveIndex,
+		setHistoryIndex,
 	])
 
 	const handleUpArrowKey = useCallback(event => {
 		event.preventDefault()
 
-		let newActiveIndex = autocompleteActiveIndex - 1
+		if (!message && !autocompleteList.length) {
+			let newHistoryIndex = historyIndex + 1
 
-		if (newActiveIndex < 0) {
-			newActiveIndex = autocompleteList.length - 1
+			if (newHistoryIndex > (history.length - 1)) {
+				newHistoryIndex = 0
+			}
+
+			setHistoryIndex(newHistoryIndex)
+		} else {
+			let newActiveIndex = autocompleteActiveIndex - 1
+
+			if (newActiveIndex < 0) {
+				newActiveIndex = autocompleteList.length - 1
+			}
+
+			setAutocompleteActiveIndex(newActiveIndex)
 		}
-
-		return setAutocompleteActiveIndex(newActiveIndex)
 	}, [
 		autocompleteActiveIndex,
 		autocompleteList,
+		history,
+		historyIndex,
 		setAutocompleteActiveIndex,
+		setHistoryIndex,
 	])
 
 	const handleEnterKey = useCallback(event => {
@@ -183,6 +209,8 @@ export const SimulatorForm = props => {
 
 		const { result: currentAutocompleteTarget } = getWordFromIndex(value, cursorPosition)
 
+		setHistoryIndex(0)
+
 		if (currentAutocompleteTarget === command) {
 			if (command.startsWith('/')) {
 				fuse.setCollection(ircCommands)
@@ -208,6 +236,7 @@ export const SimulatorForm = props => {
 		commands,
 		message,
 		setAutocompleteList,
+		setHistoryIndex,
 		setMessage,
 	])
 
@@ -216,6 +245,14 @@ export const SimulatorForm = props => {
 
 		const [command] = message.split(' ')
 		const subMessage = message.split(' ').slice(1).join(' ')
+
+		setHistory(oldHistory => ([
+			'',
+			message,
+			...oldHistory.slice(1, 9),
+		]))
+
+		setHistoryIndex(0)
 
 		if (command.startsWith('/')) {
 			switch (command) {
@@ -246,6 +283,8 @@ export const SimulatorForm = props => {
 	}, [
 		message,
 		sendMessage,
+		setHistory,
+		setHistoryIndex,
 		setMessage,
 	])
 
@@ -303,7 +342,7 @@ export const SimulatorForm = props => {
 				onChange={handleMessageChange}
 				placeholder="Message"
 				ref={inputRef}
-				value={message} />
+				value={message || history[historyIndex]} />
 
 			<button
 				disabled={isConnecting || !isConnected}
