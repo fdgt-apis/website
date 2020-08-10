@@ -87,7 +87,7 @@ export const SimulatorForm = props => {
 
 		if (result.startsWith('/')) {
 			newValue = `/${newValue}`
-		} else if (result.startsWith('--')) {
+		} else if (result.startsWith('-')) {
 			newValue = ` --${newValue}`
 		}
 
@@ -98,7 +98,6 @@ export const SimulatorForm = props => {
 	])
 
 	const handleAutocompleteSelection = useCallback(event => {
-		console.log('handleAutocompleteSelection', event.target.value)
 		contextuallyUpdateMessage(event.target.value)
 		setAutocompleteList([])
 		inputRef.current?.focus()
@@ -165,8 +164,15 @@ export const SimulatorForm = props => {
 
 	const handleEnterKey = useCallback(event => {
 		if (autocompleteList.length) {
+			let item = autocompleteList[autocompleteActiveIndex]
+
 			event.preventDefault()
-			contextuallyUpdateMessage(autocompleteList[autocompleteActiveIndex].item)
+
+			if (typeof item !== 'string') {
+				item = item.item
+			}
+
+			contextuallyUpdateMessage(item)
 			setAutocompleteList([])
 			inputRef.current.focus()
 		}
@@ -210,26 +216,36 @@ export const SimulatorForm = props => {
 
 		const { result: currentAutocompleteTarget } = getWordFromIndex(value, cursorPosition)
 
-		setHistoryIndex(0)
-
-		if (currentAutocompleteTarget === command) {
-			if (command.startsWith('/')) {
-				fuse.setCollection(ircCommands)
-			} else {
-				fuse.setCollection(commands || [])
-			}
-		} else if (currentAutocompleteTarget?.startsWith('--')) {
-			fuse.setCollection((commandsData?.[command] || []).map(({ name }) => name))
-		} else {
-			fuse.setCollection([])
+		if (historyIndex > 0) {
+			setHistoryIndex(0)
 		}
 
-		if (currentAutocompleteTarget) {
-			const results = fuse.search(currentAutocompleteTarget.replace(/^--/, '')).reverse()
-			setAutocompleteList(results)
-			setAutocompleteActiveIndex(results.length - 1)
-		} else {
-			setAutocompleteList([])
+		if (value && value[cursorPosition - 1] !== ' ') {
+			if (currentAutocompleteTarget === command) {
+				if (command.startsWith('/')) {
+					fuse.setCollection(ircCommands)
+				} else {
+					fuse.setCollection(commands || [])
+				}
+			} else if (currentAutocompleteTarget?.startsWith('-')) {
+				fuse.setCollection((commandsData?.[command] || []).map(({ name }) => name))
+			} else {
+				fuse.setCollection([])
+			}
+
+			if (currentAutocompleteTarget) {
+				let query = currentAutocompleteTarget.replace(/^--?/, '')
+				let results = fuse._docs
+
+				if (query) {
+					results = fuse.search(query).reverse()
+				}
+
+				setAutocompleteList(results)
+				setAutocompleteActiveIndex(results.length - 1)
+			} else {
+				setAutocompleteList([])
+			}
 		}
 
 		setMessage(value)
@@ -282,6 +298,7 @@ export const SimulatorForm = props => {
 
 		setMessage('')
 	}, [
+		historyIndex,
 		message,
 		sendMessage,
 		setHistory,
@@ -303,13 +320,38 @@ export const SimulatorForm = props => {
 		<form onSubmit={handleMessageSubmit}>
 			<ol className="autocomplete">
 				{autocompleteList.map((result, autocompleteIndex) => {
-					const {
-						item,
-						matches: [{ indices }],
-					} = result
+					let value = null
+					let renderedValue = null
+
+					if (typeof result !== 'string') {
+						const {
+							item,
+							matches: [{ indices }],
+						} = result
+
+						value = item
+
+						renderedValue = indices.map((match, index) => {
+							const [start, end] = match
+							const isLastIndex = (index === (indices.length - 1))
+
+							return (
+								<Fragment key={index}>
+									{item.substring(indices[index - 1]?.[1] + 1 || 0, start)}
+
+									<strong>{item.substring(start, end + 1)}</strong>
+
+									{isLastIndex && item.substring(end + 1)}
+								</Fragment>
+							)
+						})
+					} else {
+						value = result
+						renderedValue = result
+					}
 
 					return (
-						<li key={item}>
+						<li key={value}>
 							<button
 								className={classnames({
 									active: autocompleteActiveIndex === autocompleteIndex,
@@ -317,21 +359,8 @@ export const SimulatorForm = props => {
 								onClick={handleAutocompleteSelection}
 								onMouseOver={handleMouseOverAutocompleteItem(autocompleteIndex)}
 								type="button"
-								value={item}>
-								{indices.map((match, index) => {
-									const [start, end] = match
-									const isLastIndex = (index === (indices.length - 1))
-
-									return (
-										<Fragment key={index}>
-											{item.substring(indices[index - 1]?.[1] + 1 || 0, start)}
-
-											<strong>{item.substring(start, end + 1)}</strong>
-
-											{isLastIndex && item.substring(end + 1)}
-										</Fragment>
-									)
-								})}
+								value={value}>
+								{renderedValue}
 							</button>
 						</li>
 					)
