@@ -178,11 +178,12 @@ export const SimulatorForm = props => {
 	])
 
 	const handleKeydown = useCallback(event => {
-		if (![13, 38, 40].includes(event.which)) {
+		if (![9, 13, 38, 40].includes(event.which)) {
 			return
 		}
 
 		switch (event.which) {
+			case 9:
 			case 13:
 				handleEnterKey(event)
 				break
