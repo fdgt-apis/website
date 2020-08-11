@@ -1,0 +1,25 @@
+.modal-wrapper {
+	align-items: center;
+	background-color: hsla(var(--black-ops-h), var(--black-ops-s), var(--black-ops-l), 0.8);
+	bottom: 0;
+	display: flex;
+	justify-content: center;
+	left: 0;
+	position: absolute;
+	right: 0;
+	top: 0;
+}
+
+.modal {
+	box-shadow: 0 0 1rem var(--black-ops);
+	max-width: 90vw;
+	min-width: 50vw;
+
+	header {
+		h2 {
+			border: none;
+			margin: 0;
+			padding: 0;
+		}
+	}
+}

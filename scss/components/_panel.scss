@@ -1,0 +1,19 @@
+.panel {
+	border-color: var(--nights);
+	border-radius: calc(var(--gutter) / 2);
+	border-style: solid;
+	border-width: 0.1rem;
+	overflow: hidden;
+
+	header {
+		background-color: var(--nights);
+		color: var(--white);
+		font-weight: bold;
+		padding: calc(var(--gutter) / 2) var(--gutter);
+	}
+
+	.panel-content {
+		background-color: var(--ice);
+		padding: var(--gutter);
+	}
+}
