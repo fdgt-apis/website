@@ -3,13 +3,23 @@
 	border-radius: calc(var(--gutter) / 2);
 	border-style: solid;
 	border-width: 0.1rem;
+	display: grid;
+	grid-template-rows: auto 1fr auto;
 	overflow: hidden;
 
-	header {
+	footer, header {
 		background-color: var(--nights);
 		color: var(--white);
-		font-weight: bold;
 		padding: calc(var(--gutter) / 2) var(--gutter);
+	}
+
+	footer {
+		display: flex;
+		justify-content: flex-end;
+	}
+
+	header {
+		font-weight: bold;
 	}
 
 	.panel-content {

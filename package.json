@@ -31,6 +31,7 @@
     "prismjs": "^1.21.0",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
+    "react-autosize-textarea": "^7.1.0",
     "react-dom": "^16.13.1",
     "react-markdown": "^4.3.1",
     "remark-behead": "^2.3.3",

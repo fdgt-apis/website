@@ -1,0 +1,9 @@
+input, textarea {
+	background-color: var(--white);
+	border: none;
+	border-radius: 0.5rem;
+	color: inherit;
+	font-family: inherit;
+	font-size: inherit;
+	padding: calc(var(--gutter) / 2);
+}

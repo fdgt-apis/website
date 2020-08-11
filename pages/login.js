@@ -4,6 +4,7 @@ import React, {
   useEffect,
   useState,
 } from 'react'
+import { NextSeo as NextSEO } from 'next-seo'
 import { useRouter } from 'next/router'
 
 
@@ -58,6 +59,10 @@ const LoginPage = props => {
 
 	return (
 		<PageWrapper {...props}>
+			<NextSEO
+				description="Login to access your fdgt dashboard"
+				title="Login" />
+
 			<section>
 				<button
 					className="primary"

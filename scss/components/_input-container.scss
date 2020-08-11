@@ -1,0 +1,12 @@
+.input-container {
+	display: flex;
+	flex-direction: column;
+
+	label {
+		font-weight: bold;
+	}
+
+	+ .input-container {
+		margin-top: var(--gutter);
+	}
+}
