@@ -1,4 +1,5 @@
 export {
+  faAngleUp,
   faBook,
   faChevronRight,
   faGifts,
@@ -6,6 +7,7 @@ export {
   faIdBadge,
   faPen,
   faServer,
+  faTimes,
   faUser,
   faUsers,
 } from '@fortawesome/free-solid-svg-icons'
