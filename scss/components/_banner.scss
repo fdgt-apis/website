@@ -36,7 +36,8 @@
 		margin-right: 1rem;
 	}
 
-	a:hover {
+	a:hover,
+	button:hover {
 		background-color: var(--dragon);
 	}
 }

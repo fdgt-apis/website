@@ -6,6 +6,7 @@ export {
   faIdBadge,
   faPen,
   faServer,
+  faTachometerAlt,
   faUser,
   faUsers,
 } from '@fortawesome/free-solid-svg-icons'
