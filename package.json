@@ -40,7 +40,7 @@
     "remark-behead": "^2.3.3",
     "remark-shortcodes": "^0.3.1",
     "sass": "^1.26.10",
-    "vercel": "^19.2.0"
+    "vercel": "^20.1.1"
   },
   "devDependencies": {
     "json-loader": "^0.5.7",
