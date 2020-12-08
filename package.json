@@ -17,7 +17,7 @@
     "awaity": "^1.0.0",
     "babel-plugin-prismjs": "^2.0.1",
     "classnames": "^2.2.6",
-    "copy-webpack-plugin": "^6.0.3",
+    "copy-webpack-plugin": "^6.4.0",
     "frontmatter": "^0.0.3",
     "fuse.js": "^6.4.1",
     "irc-message": "^3.0.2",
