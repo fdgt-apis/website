@@ -378,7 +378,7 @@ const SimulatorContextProvider = props => {
 		socket.send(`PRIVMSG ${channelName.replace(/^#/, '')} :${message}`)
 	}, [])
 
-	const sendPING = useCallback(() => socket.send('PING'), [])
+	const sendPING = useCallback(params => socket.send(`PING${params ? ` ${params}` : ''}`), [])
 
 	const {
 		error: emotesFetchError,
