@@ -286,7 +286,7 @@ export const SimulatorForm = props => {
 					break
 
 				case '/ping':
-					sendPING()
+					sendPING(subMessage)
 					break
 
 				default:
