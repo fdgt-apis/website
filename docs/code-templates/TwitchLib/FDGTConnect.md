@@ -1,5 +1,6 @@
 ```csharp
-// Additional package to download
+// Additional package to downloaded from NuGet
+// https://www.nuget.org/packages/TwitchLib.Communication.Clients.FDGTClient/
 // - TwitchLib.Communication.Clients.FDGTClient 
 
 using TwitchLib.Client;
