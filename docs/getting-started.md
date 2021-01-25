@@ -47,7 +47,7 @@ Sometimes, the randomized events that `fdgt` generates just aren't specific enou
 
 ...or, say you want to simulate that 10x Tier 3 `submysterygift` we mentioned earlier:
 
-[[ CodeTemplate template=PRIVMSG channel=TrezyCodes message="submysterygift.tier3 --username alca --giftcount 10" ]]
+[[ CodeTemplate template=PRIVMSG channel=TrezyCodes message="submysterygift --tier 3 --username alca --giftcount 10" ]]
 
 For more information on what events are available and what parameters they support, check out the [events][events] section.
 
