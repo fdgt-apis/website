@@ -39,7 +39,7 @@
     "react-spring": "^8.0.27",
     "remark-behead": "^2.3.3",
     "remark-shortcodes": "^0.3.1",
-    "sass": "^1.26.10",
+    "sass": "^1.36.0",
     "vercel": "^19.2.0"
   },
   "devDependencies": {
