@@ -419,6 +419,8 @@ const SimulatorContextProvider = props => {
 	}, [])
 
 	useEffect(() => {
+		return
+
 		if (emotesFetchResponse) {
 			const emotesData = emotesFetchResponse.emoticon_sets[0]
 			const emoteDictionary = {}
@@ -428,11 +430,14 @@ const SimulatorContextProvider = props => {
 			setEmotes(emoteDictionary)
 		}
 	}, [
+		emotesFetchError,
 		emotesFetchResponse,
 		setEmotes,
 	])
 
 	useEffect(() => {
+		return
+
 		if (cheermotesFetchResponse) {
 			const cheermoteDictionary = {}
 
