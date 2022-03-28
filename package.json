@@ -36,7 +36,7 @@
     "react-dom": "^17.0.2",
     "react-markdown": "^4.3.1",
     "react-resize-aware": "^3.1.1",
-    "react-spring": "^8.0.27",
+    "react-spring": "^9.4.4",
     "remark-behead": "^2.3.3",
     "remark-shortcodes": "^0.3.1",
     "sass": "^1.49.9"
