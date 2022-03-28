@@ -380,24 +380,24 @@ const SimulatorContextProvider = props => {
 
 	const sendPING = useCallback(params => socket.send(`PING${params ? ` ${params}` : ''}`), [])
 
+	// const {
+	// 	error: emotesFetchError,
+	// 	pending: emotesFetchIsPending,
+	// 	value: emotesFetchResponse,
+	// } = useFetch({
+	// 	headers: {
+	// 		Accept: 'application/vnd.twitchtv.v5+json',
+	// 		'Client-ID': process.env.NEXT_PUBLIC_TWITCH_CLIENT_ID,
+	// 	},
+	// 	url: 'https://api.twitch.tv/helix/chat/emotes/global',
+	// }, [])
+
 	const {
 		error: emotesFetchError,
 		pending: emotesFetchIsPending,
 		value: emotesFetchResponse,
 	} = useFetch({
-		headers: {
-			Accept: 'application/vnd.twitchtv.v5+json',
-			'Client-ID': process.env.NEXT_PUBLIC_TWITCH_CLIENT_ID,
-		},
-		url: 'https://api.twitch.tv/kraken/chat/emoticon_images?emotesets=0',
-	}, [])
-
-	const {
-		error: cheermotesFetchError,
-		pending: cheermotesFetchIsPending,
-		value: cheermotesFetchResponse,
-	} = useFetch({
-		url: '/api/cheermotes',
+		url: '/api/emotes',
 	}, [])
 
 	useEffect(() => {
@@ -419,37 +419,28 @@ const SimulatorContextProvider = props => {
 	}, [])
 
 	useEffect(() => {
-		return
-
 		if (emotesFetchResponse) {
-			const emotesData = emotesFetchResponse.emoticon_sets[0]
-			const emoteDictionary = {}
-			emotesData.forEach((emoteDatum) => {
-				emoteDictionary[emoteDatum.code.toLowerCase()] = emoteDatum.id
-			})
+			const emotesData = emotesFetchResponse.emotes
+			const cheermotesData = emotesFetchResponse.cheermotes
+
+			const emoteDictionary = emotesData.reduce((accumulator, emoteDatum) => {
+				accumulator[emoteDatum.name.toLowerCase()] = emoteDatum.id
+				return accumulator
+			}, {})
+
+			const cheermoteDictionary = cheermotesData.reduce((accumulator, cheermoteDatum) => {
+				accumulator[cheermoteDatum.prefix.toLowerCase()] = cheermoteDatum.tiers.reverse()
+				return accumulator
+			}, {})
+
 			setEmotes(emoteDictionary)
+			setCheermotes(cheermoteDictionary)
 		}
 	}, [
 		emotesFetchError,
 		emotesFetchResponse,
-		setEmotes,
-	])
-
-	useEffect(() => {
-		return
-
-		if (cheermotesFetchResponse) {
-			const cheermoteDictionary = {}
-
-			cheermotesFetchResponse.forEach((cheermoteDatum) => {
-				cheermoteDictionary[cheermoteDatum.prefix.toLowerCase()] = cheermoteDatum.tiers.reverse()
-			})
-
-			setCheermotes(cheermoteDictionary)
-		}
-	}, [
-		cheermotesFetchResponse,
 		setCheermotes,
+		setEmotes,
 	])
 
 	return (
