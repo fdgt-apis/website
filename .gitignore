@@ -1,8 +1,15 @@
 .DS_Store
 .env*.local
-yarn-error.log
-.now/
 .next/
 .vercel/
 node_modules/
 public/prism-grammars
+
+.yarn/*
+!.yarn/cache
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
+.pnp.*
+yarn-error.log
