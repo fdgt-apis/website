@@ -15,14 +15,14 @@ import { Shortcode } from 'components/Shortcode'
 
 
 const config = {
-  plugins: [
+	plugins: [
 		[behead, { depth: 1 }],
-    shortcodes,
-  ],
-  renderers: {
-    code: Code,
-    shortcode: Shortcode,
-  },
+		shortcodes,
+	],
+	renderers: {
+		code: Code,
+		shortcode: Shortcode,
+	},
 }
 
 

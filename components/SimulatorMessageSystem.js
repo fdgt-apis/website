@@ -19,7 +19,7 @@ const dateFormatter = new Intl.DateTimeFormat(undefined, {
 
 
 
-const SimulatorMessageSystem = forwardRef((props, ref) => {
+export const SimulatorMessageSystem = forwardRef((props, ref) => {
 	const { message } = props
 
 	const timestampMS = useRef(Date.now())
@@ -41,9 +41,3 @@ const SimulatorMessageSystem = forwardRef((props, ref) => {
 SimulatorMessageSystem.propTypes = {
 	message: PropTypes.string.isRequired,
 }
-
-
-
-
-
-export { SimulatorMessageSystem }

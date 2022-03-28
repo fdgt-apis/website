@@ -13,7 +13,7 @@ import { FDGT } from 'components/FDGT'
 
 
 
-export const ProfileGrid = props => {
+export function ProfileGrid(props) {
 	const { profiles } = props
 
 	return (

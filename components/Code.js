@@ -21,7 +21,7 @@ import { ExternalLink } from 'components/ExternalLink'
 
 
 
-const renderToken = (token, index) => {
+function renderToken(token, index) {
 	if (typeof token === 'string') {
 		return token
 	}
@@ -36,7 +36,7 @@ const renderToken = (token, index) => {
 	)
 }
 
-const renderTokens = tokens => {
+function renderTokens(tokens) {
 	const lines = tokens.reduce((accumulator, token, index) => {
 		const addLine = () => accumulator.push([])
 		const addToken = token => accumulator[accumulator.length - 1].push(token)
@@ -72,7 +72,7 @@ const renderTokens = tokens => {
 
 
 
-export const Code = props => {
+export function Code(props) {
 	const {
 		language,
     value,

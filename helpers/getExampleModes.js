@@ -1,4 +1,4 @@
-export const getExampleModes = async () => {
+export async function getExampleModes() {
 	const [
 		fs,
 		path,

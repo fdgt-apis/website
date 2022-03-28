@@ -5,6 +5,8 @@ import React from 'react'
 
 
 
-export const FDGT = () => (
-	<span className="wordmark">fdgt</span>
-)
+export function FDGT() {
+	return (
+		<span className="wordmark">fdgt</span>
+	)
+}

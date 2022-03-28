@@ -14,14 +14,14 @@ import { PageWrapper } from 'components/PageWrapper'
 
 
 
-export default props => (
-	<PageWrapper {...props}>
-		<ErrorPage statusCode={404} />
-	</PageWrapper>
-)
+export default function NotFoundErrorPage(props) {
+	return (
+		<PageWrapper {...props}>
+			<ErrorPage statusCode={404} />
+		</PageWrapper>
+	)
+}
 
-
-
-
-
-export const getStaticProps = getCommands
+export function getStaticProps(...args) {
+	return getCommands(...args)
+}

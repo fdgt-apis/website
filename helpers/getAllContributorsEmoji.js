@@ -31,4 +31,6 @@ const legend = {
 	video: '📹',
 }
 
-export const getAllContributorsEmoji = key => legend[key]
+export function getAllContributorsEmoji(key) {
+	return legend[key]
+}

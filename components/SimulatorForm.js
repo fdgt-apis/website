@@ -40,7 +40,7 @@ const ircCommands = [
 
 
 
-export const SimulatorForm = props => {
+export function SimulatorForm(props) {
 	const inputRef = useRef(null)
 	const [autocompleteActiveIndex, setAutocompleteActiveIndex] = useState(0)
 	const [autocompleteList, setAutocompleteList] = useState([])

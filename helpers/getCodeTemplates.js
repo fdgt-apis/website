@@ -5,7 +5,7 @@ import reduce from 'awaity/reduce'
 
 
 
-export const getCodeTemplates = async () => {
+export async function getCodeTemplates() {
 	const [
 		fs,
 		path,

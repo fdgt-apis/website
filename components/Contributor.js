@@ -15,10 +15,10 @@ import { getAllContributorsEmoji } from 'helpers/getAllContributorsEmoji'
 
 
 
-export const Contributor = ({ contributor }) => {
+export function Contributor(props) {
+	const { contributor } = props
 	const {
 		avatar_url: avatarURL,
-		bio,
 		contributions,
 		login,
 		name,

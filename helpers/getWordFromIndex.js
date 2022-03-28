@@ -1,4 +1,4 @@
-export const getWordFromIndex = (string, index) => {
+export function getWordFromIndex(string, index) {
 	const splitString = string.split(' ')
 
 	const {

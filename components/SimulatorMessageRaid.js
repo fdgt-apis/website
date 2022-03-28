@@ -19,7 +19,7 @@ const dateFormatter = new Intl.DateTimeFormat(undefined, {
 
 
 
-const SimulatorMessageRaid = forwardRef((props, ref) => {
+export const SimulatorMessageRaid = forwardRef((props, ref) => {
 	const { tags } = props
 
 	const timestamp = useRef(dateFormatter.format(new Date(parseInt(tags['tmi-sent-ts'], 10))))
@@ -43,9 +43,3 @@ const SimulatorMessageRaid = forwardRef((props, ref) => {
 SimulatorMessageRaid.propTypes = {
 	tags: PropTypes.object.isRequired,
 }
-
-
-
-
-
-export { SimulatorMessageRaid }

@@ -12,7 +12,7 @@ import { useAsync } from 'hooks/useAsync'
 
 
 
-export const useFetch = (options = {}, asyncOptions = {}) => {
+export function useFetch(options = {}, asyncOptions = {}) {
 	const {
 		url,
 	} = options

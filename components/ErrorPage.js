@@ -22,7 +22,7 @@ const statusMessages = {
 
 
 
-export const ErrorPage = props => {
+export function ErrorPage(props) {
 	const {
 		statusCode = 500,
 	} = props

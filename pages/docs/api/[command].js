@@ -24,7 +24,7 @@ import markdownConfig from 'helpers/reactMarkdownConfig'
 
 
 
-export default props => {
+export default function CommandDocumentation(props) {
 	const {
 		setCodeTemplates,
 		setExampleModes,
@@ -62,11 +62,7 @@ export default props => {
 	)
 }
 
-
-
-
-
-export const getStaticPaths = async initialProps => {
+export async function getStaticPaths(initialProps) {
 	const { data } = await fetch('https://api.fdgt.dev/fdgt/v1/commands').then(response => response.json())
 
 	return {
@@ -79,11 +75,7 @@ export const getStaticPaths = async initialProps => {
 	}
 }
 
-
-
-
-
-export const getStaticProps = async initialProps => {
+export async function getStaticProps(initialProps) {
 	const { params } = initialProps
 
 	const [

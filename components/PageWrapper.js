@@ -14,7 +14,7 @@ import { DocsSubnav } from 'components/DocsSubnav'
 
 
 
-export const PageWrapper = props => {
+export function PageWrapper(props) {
 	const {
 		children,
 		commands,

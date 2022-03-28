@@ -1,4 +1,4 @@
-export const getSponsors = async () => {
+export async function getSponsors() {
 	const {
 		data: sponsors,
 		included,

@@ -14,14 +14,14 @@ import { PageWrapper } from 'components/PageWrapper'
 
 
 
-export default props => (
-	<PageWrapper {...props}>
-		<ErrorPage statusCode={500} />
-	</PageWrapper>
-)
+export default function InternalErrorPage(props) {
+	return (
+		<PageWrapper {...props}>
+			<ErrorPage statusCode={500} />
+		</PageWrapper>
+	)
+}
 
-
-
-
-
-export const getStaticProps = getCommands
+export function getStaticProps(...args) {
+	return getCommands(...args)
+}

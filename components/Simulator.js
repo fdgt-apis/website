@@ -5,8 +5,8 @@ import React, {
 	useState,
 } from 'react'
 import {
-  animated,
-  useSpring,
+	animated,
+	useSpring,
 } from 'react-spring'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import classnames from 'classnames'
@@ -25,21 +25,21 @@ import { SimulatorForm } from 'components/SimulatorForm'
 
 
 
-export const Simulator = () => {
+export function Simulator() {
 	const [isOpen, setIsOpen] = useState(false)
 	const {
 		channels,
 		currentChannel,
 		handleChannelSelect,
 	} = useContext(SimulatorContext)
-  const [resizeListener, { height }] = useResizeAware()
-  const spring = useSpring({
+	const [resizeListener, { height }] = useResizeAware()
+	const spring = useSpring({
 		config: {
 			friction: 25,
 			tension: 500,
 		},
 		height: isOpen ? '40vh' : '0vh',
-  })
+	})
 
 	const handleClose = useCallback(() => setIsOpen(false), [setIsOpen])
 	const handleOpen = useCallback(() => setIsOpen(true), [setIsOpen])

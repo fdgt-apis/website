@@ -5,7 +5,7 @@ import Link from 'next/link'
 
 
 
-export const DocsSubnav = props => {
+export function DocsSubnav(props) {
 	const { commands } = props
 
 	return (

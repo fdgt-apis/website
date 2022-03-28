@@ -21,7 +21,7 @@ import markdownConfig from 'helpers/reactMarkdownConfig'
 
 
 
-export default props => {
+export default function GeneralDocumentation(props) {
 	const {
 		setCodeTemplates,
 		setExampleModes,
@@ -58,11 +58,7 @@ export default props => {
 	)
 }
 
-
-
-
-
-export const getStaticPaths = async () => {
+export async function getStaticPaths() {
 	const [
 		fs,
 		path,
@@ -84,11 +80,7 @@ export const getStaticPaths = async () => {
 	}
 }
 
-
-
-
-
-export const getStaticProps = async initialProps => {
+export async function getStaticProps(initialProps) {
 	const [
 		{ default: frontmatter },
 		fs,

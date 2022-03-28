@@ -26,7 +26,7 @@ import { SimulatorMessageSystem } from 'components/SimulatorMessageSystem'
 
 
 
-const SimulatorChannel = props => {
+export function SimulatorChannel(props) {
 	const {
 		channelName,
 		events,
@@ -153,9 +153,3 @@ SimulatorChannel.propTypes = {
 	events: PropTypes.array.isRequired,
 	state: PropTypes.object,
 }
-
-
-
-
-
-export { SimulatorChannel }

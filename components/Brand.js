@@ -14,14 +14,16 @@ import Mote from 'public/images/mote.svg'
 
 
 
-export const Brand = props => (
-	<span className="brand">
-		<span style={{ fontSize: `${props.scale}em` }}>
-			<Mote />
-			<FDGT />
+export function Brand(props) {
+	return (
+		<span className="brand">
+			<span style={{ fontSize: `${props.scale}em` }}>
+				<Mote />
+				<FDGT />
+			</span>
 		</span>
-	</span>
-)
+	)
+}
 
 Brand.defaultProps = {
 	scale: 1,

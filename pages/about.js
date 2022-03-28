@@ -23,7 +23,7 @@ import { PageWrapper } from 'components/PageWrapper'
 
 
 
-const AboutPage = props => {
+export default function AboutPage(props) {
 	const {
 		contributors,
 		sponsors,
@@ -112,9 +112,3 @@ AboutPage.getInitialProps = async () => {
 		...sponsorProps,
 	}
 }
-
-
-
-
-
-export default AboutPage

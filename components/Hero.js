@@ -15,26 +15,28 @@ import Mote from 'public/images/mote.svg'
 
 
 
-export const Hero = () => (
-	<section className="hero">
-		<Mote />
+export function Hero() {
+	return (
+		<section className="hero">
+			<Mote />
 
-		<div className="call-to-action">
-			<h2><FDGT /></h2>
+			<div className="call-to-action">
+				<h2><FDGT /></h2>
 
-			<p><FDGT /> is designed to make the life of Twitch Developers easier. From building Twitch bots, to designing overlays, to developing extensions, we provide the tools you need to build amazing things on Twitch &mdash; without breaking the bank.</p>
+				<p><FDGT /> is designed to make the life of Twitch Developers easier. From building Twitch bots, to designing overlays, to developing extensions, we provide the tools you need to build amazing things on Twitch &mdash; without breaking the bank.</p>
 
-			<Link
-				as="/docs/getting-started"
-				href="/docs/[...doc]">
-				<a className="button">
-					Get Started
+				<Link
+					as="/docs/getting-started"
+					href="/docs/[...doc]">
+					<a className="button">
+						Get Started
 
-					<FontAwesomeIcon
-						fixedWidth
-						icon="chevron-right" />
-				</a>
-			</Link>
-		</div>
-	</section>
-)
+						<FontAwesomeIcon
+							fixedWidth
+							icon="chevron-right" />
+					</a>
+				</Link>
+			</div>
+		</section>
+	)
+}

@@ -31,7 +31,7 @@ const createChannelObject = options => ({
 const isSelf = parsedMessage => {
 	return parsedMessage.prefix.replace(/^[\w-]+?!([\w-]+?)@[\w-]+?\.tmi\.twitch\.tv/, '$1') === 'fdgt-test'
 }
-const SimulatorContext = React.createContext({
+export const SimulatorContext = React.createContext({
 	addMessage: () => {},
 	channels: {},
 	cheermotes: {},
@@ -57,7 +57,7 @@ let socket = null
 
 
 
-const SimulatorContextProvider = props => {
+export function SimulatorContextProvider(props) {
 	const { children } = props
 
 	const [channels, setChannels] = useState({
@@ -466,9 +466,4 @@ const SimulatorContextProvider = props => {
 
 SimulatorContextProvider.propTypes = {
 	children: PropTypes.node.isRequired,
-}
-
-export {
-	SimulatorContext,
-	SimulatorContextProvider,
 }

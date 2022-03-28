@@ -5,7 +5,7 @@ import { useEffect } from 'react'
 
 
 
-export const useTMIEvent = (client, eventType, handler) => {
+export function useTMIEvent(client, eventType, handler) {
 	useEffect(() => {
 		client.on(eventType, handler)
 		return () => client.removeListener(eventType, handler)

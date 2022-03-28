@@ -41,7 +41,12 @@ faLibrary.add(fasIcons)
 faLibrary.add(fabIcons)
 faLibrary.add(farIcons)
 
-const App = ({ Component, pageProps }) => {
+export default function App(props) {
+	const {
+		Component,
+		pageProps,
+	} = props
+
 	LocalForage.config({
 		name: 'fdgt.dev',
 		storeName: 'webStore',
@@ -71,15 +76,6 @@ const App = ({ Component, pageProps }) => {
 }
 
 App.propTypes = {
-  Component: PropTypes.oneOfType([
-    PropTypes.func,
-    PropTypes.node,
-  ]).isRequired,
+  Component: PropTypes.node.isRequired,
   pageProps: PropTypes.object.isRequired,
 }
-
-
-
-
-
-export default App

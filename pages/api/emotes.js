@@ -11,7 +11,7 @@ const {
 	TWITCH_CLIENT_SECRET,
 } = process.env
 
-export const handler = async (request, response) => {
+export async function handler(request, response) {
 	let accessToken = null
 	let allEmotes = null
 
@@ -57,6 +57,6 @@ export const handler = async (request, response) => {
 
 
 export default createEndpoint({
-  allowedMethods: ['get'],
-  handler,
+	allowedMethods: ['get'],
+	handler,
 })

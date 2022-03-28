@@ -9,7 +9,7 @@ import {
 
 
 
-export const useAsync = (options, dependencies = []) => {
+export function useAsync(options, dependencies = []) {
 	const {
 		handler,
 		immediate = true
@@ -21,7 +21,7 @@ export const useAsync = (options, dependencies = []) => {
 
 	const execute = useCallback(() => {
 		setPending(true)
-    setValue(null)
+		setValue(null)
 		setError(null)
 
 		return handler()
@@ -37,7 +37,7 @@ export const useAsync = (options, dependencies = []) => {
 
 	useEffect(() => {
 		if (immediate) {
-      execute()
+			execute()
 		}
 
 		return () => {}

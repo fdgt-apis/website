@@ -17,7 +17,7 @@ import { useAsync } from 'hooks/useAsync'
 
 
 
-const ExampleModeContext = React.createContext({
+export const ExampleModeContext = React.createContext({
 	codeTemplates: {},
 	currentExampleMode: null,
 	exampleModes: [],
@@ -30,7 +30,7 @@ const ExampleModeContext = React.createContext({
 
 
 
-const ExampleModeContextProvider = props => {
+export function ExampleModeContextProvider(props) {
 	const { children } = props
 
 	const [codeTemplates, setCodeTemplates] = useState({})
@@ -84,9 +84,4 @@ const ExampleModeContextProvider = props => {
 
 ExampleModeContextProvider.propTypes = {
 	children: PropTypes.node.isRequired,
-}
-
-export {
-	ExampleModeContext,
-	ExampleModeContextProvider,
 }

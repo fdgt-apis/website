@@ -19,7 +19,7 @@ const dateFormatter = new Intl.DateTimeFormat(undefined, {
 
 
 
-const SimulatorMessageResubscription = forwardRef((props, ref) => {
+export const SimulatorMessageResubscription = forwardRef((props, ref) => {
 	const {
 		message,
 		tags,
@@ -62,9 +62,3 @@ SimulatorMessageResubscription.propTypes = {
 	message: PropTypes.string,
 	tags: PropTypes.object.isRequired,
 }
-
-
-
-
-
-export { SimulatorMessageResubscription }

@@ -18,19 +18,19 @@ import markdownConfig from 'helpers/reactMarkdownConfig'
 
 
 
-const Shortcode = props => {
-  const {
-    attributes,
-    children,
-    identifier,
-  } = props
+export function Shortcode(props) {
+	const {
+		attributes,
+		children,
+		identifier,
+	} = props
 	const {
 		codeTemplates,
 		currentExampleMode,
 	} = useContext(ExampleModeContext)
 
-  const shortcodes = {
-    codetemplate: codeTemplateProps => {
+	const shortcodes = {
+		codetemplate: codeTemplateProps => {
 			const {
 				template: templateName,
 			} = codeTemplateProps
@@ -52,29 +52,23 @@ const Shortcode = props => {
 					source={template} />
 			)
 		},
-  }
+	}
 
-  const ShortcodeComponent = shortcodes[identifier.toLowerCase()] || (() => null)
+	const ShortcodeComponent = shortcodes[identifier.toLowerCase()] || (() => null)
 
-  return (
-    <ShortcodeComponent {...attributes}>
-      {children}
-    </ShortcodeComponent>
-  )
+	return (
+		<ShortcodeComponent {...attributes}>
+			{children}
+		</ShortcodeComponent>
+	)
 }
 
 Shortcode.defaultProps = {
-  children: null,
+	children: null,
 }
 
 Shortcode.propTypes = {
-  attributes: PropTypes.object.isRequired,
-  children: PropTypes.node,
-  identifier: PropTypes.string.isRequired,
+	attributes: PropTypes.object.isRequired,
+	children: PropTypes.node,
+	identifier: PropTypes.string.isRequired,
 }
-
-
-
-
-
-export { Shortcode }

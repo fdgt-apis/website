@@ -15,7 +15,8 @@ import { getAllContributorsEmoji } from 'helpers/getAllContributorsEmoji'
 
 
 
-export const ProfileCard = ({ profile }) => {
+export function ProfileCard(props) {
+	const { profile } = props
 	const {
 		bio,
 		contributions,
