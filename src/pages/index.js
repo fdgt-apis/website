@@ -11,7 +11,6 @@ import { FDGT } from 'components/FDGT'
 import { getCommands } from 'helpers/getCommands'
 import { Hero } from 'components/Hero'
 import { PageWrapper } from 'components/PageWrapper'
-import Mote from 'public/images/mote.svg'
 
 
 

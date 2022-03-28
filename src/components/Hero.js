@@ -9,7 +9,7 @@ import React from 'react'
 
 // Local imports
 import { FDGT } from 'components/FDGT'
-import Mote from 'public/images/mote.svg'
+import Mote from '../../public/images/mote.svg'
 
 
 

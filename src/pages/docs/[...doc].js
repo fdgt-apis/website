@@ -1,6 +1,7 @@
 // Module imports
 import React, {
 	useContext,
+	useEffect,
 } from 'react'
 import { NextSeo as NextSEO } from 'next-seo'
 import ReactMarkdown from 'react-markdown'
@@ -33,8 +34,15 @@ export default function GeneralDocumentation(props) {
 		meta,
 	} = props
 
-	setCodeTemplates(codeTemplates)
-	setExampleModes(exampleModes)
+	useEffect(() => {
+		setCodeTemplates(codeTemplates)
+		setExampleModes(exampleModes)
+	}, [
+		codeTemplates,
+		exampleModes,
+		setCodeTemplates,
+		setExampleModes,
+	])
 
 	return (
 		<PageWrapper {...props}>

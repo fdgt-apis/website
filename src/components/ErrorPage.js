@@ -6,7 +6,7 @@ import React from 'react'
 
 
 // Local imports
-import Mote from 'public/images/mote.svg'
+import Mote from '../../public/images/mote.svg'
 
 
 
