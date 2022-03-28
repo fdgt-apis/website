@@ -6,6 +6,7 @@ export {
 	faHome,
 	faIdBadge,
 	faPen,
+	faRightToBracket,
 	faServer,
 	faTimes,
 	faUser,

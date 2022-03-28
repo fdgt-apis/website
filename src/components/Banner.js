@@ -7,13 +7,17 @@ import Link from 'next/link'
 
 
 // Module imports
-import { ExternalLink } from './ExternalLink'
+import { Button } from 'components/Button.js'
+import { ExternalLink } from 'components/ExternalLink.js'
+import { useStore } from 'store/react.js'
 
 
 
 
 
 export function Banner() {
+	const [] = useStore(state => ([]))
+
 	return (
 		<header role="banner">
 			<nav>
@@ -55,6 +59,15 @@ export function Banner() {
 				</ol>
 
 				<ol>
+					<li>
+						<Button>
+							<FontAwesomeIcon
+								fixedWidth
+								icon="right-to-bracket" />
+							Login
+						</Button>
+					</li>
+
 					<li>
 						<ExternalLink href="https://github.com/fdgt-apis/api">
 							<FontAwesomeIcon
