@@ -7,18 +7,28 @@ const path = require('path')
 
 
 module.exports = {
-  webpack: config => {
-    config.module.rules.push({
-      exclude: /node_modules/,
-      test: /\.svg$/,
+	async redirects() {
+		return [
+			{
+				source: '/docs',
+				destination: '/docs/getting-started',
+				permanent: false
+			},
+		]
+	},
+
+	webpack: config => {
+		config.module.rules.push({
+			exclude: /node_modules/,
+			test: /\.svg$/,
 			loader: '@svgr/webpack',
-      options: {
+			options: {
 				icon: true,
 				svgo: false,
-      },
-    })
+			},
+		})
 
-    config.plugins.push(new CopyWebpackPlugin({
+		config.plugins.push(new CopyWebpackPlugin({
 			patterns: [
 				{
 					flatten: true,
@@ -28,6 +38,6 @@ module.exports = {
 			],
 		}))
 
-    return config
-  },
+		return config
+	},
 }
