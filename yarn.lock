@@ -1462,6 +1462,7 @@ __metadata:
     remark-behead: ^2.3.3
     remark-shortcodes: ^0.3.1
     sass: ^1.49.9
+    zustand: ^3.7.1
   languageName: unknown
   linkType: soft
 
@@ -6300,5 +6301,17 @@ __metadata:
   version: 0.1.0
   resolution: "yocto-queue@npm:0.1.0"
   checksum: f77b3d8d00310def622123df93d4ee654fc6a0096182af8bd60679ddcdfb3474c56c6c7190817c84a2785648cdee9d721c0154eb45698c62176c322fb46fc700
+  languageName: node
+  linkType: hard
+
+"zustand@npm:^3.7.1":
+  version: 3.7.1
+  resolution: "zustand@npm:3.7.1"
+  peerDependencies:
+    react: ">=16.8"
+  peerDependenciesMeta:
+    react:
+      optional: true
+  checksum: 987a2cee95e0fd085c3556d21289a34bb1e9727155837c480617dee839453858523d6321abf3b18de4867fb07d14f5ff7abf9a8404357baa7ec73dffec6dd4f7
   languageName: node
   linkType: hard

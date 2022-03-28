@@ -36,7 +36,8 @@
     "react-spring": "^9.4.4",
     "remark-behead": "^2.3.3",
     "remark-shortcodes": "^0.3.1",
-    "sass": "^1.49.9"
+    "sass": "^1.49.9",
+    "zustand": "^3.7.1"
   },
   "devDependencies": {
     "json-loader": "^0.5.7",
