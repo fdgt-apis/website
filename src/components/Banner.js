@@ -16,7 +16,15 @@ import { useStore } from 'store/react.js'
 
 
 export function Banner() {
-	const [] = useStore(state => ([]))
+	const [
+		isLoggedIn,
+		loginWithTwitch,
+		logout,
+	] = useStore(state => ([
+		state.isLoggedIn,
+		state.loginWithTwitch,
+		state.logout,
+	]))
 
 	return (
 		<header role="banner">
@@ -60,12 +68,23 @@ export function Banner() {
 
 				<ol>
 					<li>
-						<Button>
-							<FontAwesomeIcon
-								fixedWidth
-								icon="right-to-bracket" />
-							Login
-						</Button>
+						{!isLoggedIn && (
+							<Button onClick={loginWithTwitch}>
+								<FontAwesomeIcon
+									fixedWidth
+									icon="right-to-bracket" />
+								Login
+							</Button>
+						)}
+
+						{isLoggedIn && (
+							<Button onClick={logout}>
+								<FontAwesomeIcon
+									fixedWidth
+									icon="right-to-bracket" />
+								Logout
+							</Button>
+						)}
 					</li>
 
 					<li>

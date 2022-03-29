@@ -18,7 +18,6 @@ import Fuse from 'fuse.js'
 import { getWordFromIndex } from 'helpers/getWordFromIndex'
 import { replaceRangeInString } from 'helpers/replaceRangeInString'
 import { SimulatorContext } from 'context/SimulatorContext'
-import { useAsync } from 'hooks/useAsync'
 import { useFetch } from 'hooks/useFetch'
 
 
@@ -26,6 +25,9 @@ import { useFetch } from 'hooks/useFetch'
 
 
 // Local constants
+const commandsFetchOptions = {
+	url: `${process.env.NEXT_PUBLIC_FDGT_API_URL}/fdgt/v1/commands?includeParams=true`,
+}
 const fuse = new Fuse([], {
 	includeMatches: true,
 })
@@ -40,14 +42,13 @@ const ircCommands = [
 
 
 
-export function SimulatorForm(props) {
+export function SimulatorForm() {
 	const inputRef = useRef(null)
 	const [autocompleteActiveIndex, setAutocompleteActiveIndex] = useState(0)
 	const [autocompleteList, setAutocompleteList] = useState([])
 	const [history, setHistory] = useState([''])
 	const [historyIndex, setHistoryIndex] = useState(0)
 	const [message, setMessage] = useState('')
-	const retrieveCommandParams = useRef({})
 	const {
 		addMessage,
 		currentChannel,
@@ -62,9 +63,7 @@ export function SimulatorForm(props) {
 		error: commandsFetchError,
 		pending: commandsFetchIsPending,
 		value: commandsFetchResponse,
-	} = useFetch({
-		url: `${process.env.NEXT_PUBLIC_FDGT_API_URL}/fdgt/v1/commands?includeParams=true`,
-	}, [])
+	} = useFetch(commandsFetchOptions, [])
 
 	const commandsData = commandsFetchResponse?.data || {}
 	const commands = Object.keys(commandsData)

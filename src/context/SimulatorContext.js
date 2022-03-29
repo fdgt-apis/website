@@ -28,6 +28,7 @@ const createChannelObject = options => ({
 		subs: false,
 	},
 })
+const emotesFetchOptions = { url: '/api/emotes' }
 const isSelf = parsedMessage => {
 	return parsedMessage.prefix.replace(/^[\w-]+?!([\w-]+?)@[\w-]+?\.tmi\.twitch\.tv/, '$1') === 'fdgt-test'
 }
@@ -380,25 +381,11 @@ export function SimulatorContextProvider(props) {
 
 	const sendPING = useCallback(params => socket.send(`PING${params ? ` ${params}` : ''}`), [])
 
-	// const {
-	// 	error: emotesFetchError,
-	// 	pending: emotesFetchIsPending,
-	// 	value: emotesFetchResponse,
-	// } = useFetch({
-	// 	headers: {
-	// 		Accept: 'application/vnd.twitchtv.v5+json',
-	// 		'Client-ID': process.env.NEXT_PUBLIC_TWITCH_CLIENT_ID,
-	// 	},
-	// 	url: 'https://api.twitch.tv/helix/chat/emotes/global',
-	// }, [])
-
 	const {
 		error: emotesFetchError,
 		pending: emotesFetchIsPending,
 		value: emotesFetchResponse,
-	} = useFetch({
-		url: '/api/emotes',
-	}, [])
+	} = useFetch(emotesFetchOptions, [])
 
 	useEffect(() => {
 		const timestampMS = Date.now()
