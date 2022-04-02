@@ -67,7 +67,7 @@ export function Banner() {
 				</ol>
 
 				<ol>
-					<li>
+					{/* <li>
 						{!isLoggedIn && (
 							<Button onClick={loginWithTwitch}>
 								<FontAwesomeIcon
@@ -85,7 +85,7 @@ export function Banner() {
 								Logout
 							</Button>
 						)}
-					</li>
+					</li> */}
 
 					<li>
 						<ExternalLink href="https://github.com/fdgt-apis/api">
